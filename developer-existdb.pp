@@ -155,7 +155,7 @@ exec { 'compile-existdb':
   cwd         => $existdb_source_folder,
   command     => "${existdb_source_folder}/quick-build.sh",
   environment => [
-    'JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64',
+    'JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64',
   ],
   user        => $existdb_source_folder_owner,
   creates     => "${existdb_source_folder}/exist-distribution/target/exist-distribution-${existdb_version}-dir",
