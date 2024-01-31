@@ -87,6 +87,7 @@ NOTE: The network settings specific to the hosting provider are:
 ```
 git clone https://github.com/evolvedbinary/xml-developer-vm-setup.git
 cd xml-developer-vm-setup
+rm -rf guacamole
 sudo ./install-puppet-agent.sh
 
 sudo /opt/puppetlabs/bin/puppet apply locale-gb.pp
@@ -119,8 +120,43 @@ We have to restart the system after the above as it installs a new desktop login
 sudo shutdown -r now
 ```
 
+(-[1-9A-Za-z-][0-9A-Za-z-]*(\.[1-9A-Za-z-][0-9A-Za-z-]*)*)?
+
 
 ### Load the data into the db
 
 TODO(AR)
+
+## Install Guacamole Server
+
+On a separate VM:
+
+```
+git clone https://github.com/evolvedbinary/xml-developer-vm-setup.git
+cd xml-developer-vm-setup
+sudo ./install-puppet-agent.sh
+
+cd guacamole
+
+sudo FACTER_default_user_password=mypassword2 \
+     /opt/puppetlabs/bin/puppet apply base.pp
+```
+
+**NOTE:** you should set your own passwords appropriately above!
+
+We have to restart the system after the above as it may install a new Kernel and make changes to settings that require a system reboot. So:
+
+```
+sudo shutdown -r now
+```
+
+After the system restarts and you have logged in, you need to resume from the `xml-developer-vm-setup/guacamole` repo checkout:
+
+```
+cd xml-developer-vm-setup/guacamole
+
+sudo FACTER_default_user_password=mypassword2 \
+     FACTER_xmldev_default_user_password=mypassword
+     /opt/puppetlabs/bin/puppet apply .
+```
 
