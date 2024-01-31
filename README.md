@@ -89,6 +89,8 @@ git clone https://github.com/evolvedbinary/xml-developer-vm-setup.git
 cd xml-developer-vm-setup
 sudo ./install-puppet-agent.sh
 
+sudo /opt/puppetlabs/bin/puppet apply locale-gb.pp
+
 sudo FACTER_default_user_password=mypassword \
      /opt/puppetlabs/bin/puppet apply base.pp
 ```
