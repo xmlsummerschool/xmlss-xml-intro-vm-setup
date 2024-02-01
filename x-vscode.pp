@@ -18,6 +18,14 @@ exec { 'install-vscode-deb':
   ],
 }
 
+file_line { 'vscode-no-open-folder':
+  ensure  => present,
+  path    => '/usr/share/applications/code.desktop',
+  line    => 'MimeType=text/plain;application/x-code-workspace;',
+  match   => '^MimeType\=',
+  require => Exec['install-vscode-deb'],
+}
+
 file { 'vscode-desktop-shortcut':
   ensure  => file,
   path    => "/home/${default_user}/Desktop/code.desktop",
@@ -28,7 +36,7 @@ file { 'vscode-desktop-shortcut':
   require => [
     Package['desktop'],
     File['default_user_desktop_folder'],
-    Exec['install-vscode-deb'],
+    File_line['vscode-no-open-folder'],
   ],
 }
 
