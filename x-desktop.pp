@@ -59,3 +59,35 @@ exec { 'gvfs-trust-qterminal-desktop-shortcut':
   ],
   require     => File['qterminal-desktop-shortcut'],
 }
+
+file_line { 'simplify-pcmanfm-qt-name':
+  ensure  => present,
+  path    => '/usr/share/applications/pcmanfm-qt.desktop',
+  line    => 'Name=File Manager',
+  match   => '^Name\=',
+  require => Package['desktop'],
+}
+
+file { 'pcmanfm-qt-desktop-shortcut':
+  ensure  => file,
+  path    => "/home/${default_user}/Desktop/pcmanfm-qt.desktop",
+  source  => '/usr/share/applications/pcmanfm-qt.desktop',
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0644',
+  require => [
+    Package['desktop'],
+    File['default_user_desktop_folder'],
+    File_line['simplify-pcmanfm-qt-name'],
+  ],
+}
+
+exec { 'gvfs-trust-pcmanfm-qt-desktop-shortcut':
+  command     => "/usr/bin/gio set /home/${default_user}/Desktop/pcmanfm-qt.desktop metadata::trusted true",
+  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/pcmanfm-qt.desktop | /usr/bin/grep trusted",
+  user        => $default_user,
+  environment => [
+    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
+  ],
+  require     => File['pcmanfm-qt-desktop-shortcut'],
+}
