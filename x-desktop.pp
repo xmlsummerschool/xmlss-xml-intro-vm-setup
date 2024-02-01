@@ -91,3 +91,35 @@ exec { 'gvfs-trust-pcmanfm-qt-desktop-shortcut':
   ],
   require     => File['pcmanfm-qt-desktop-shortcut'],
 }
+
+file_line { 'simplify-lxqt-archiver-name':
+  ensure  => present,
+  path    => '/usr/share/applications/lxqt-archiver.desktop',
+  line    => 'Name=File Archiver',
+  match   => '^Name\=',
+  require => Package['desktop'],
+}
+
+file { 'lxqt-archiver-desktop-shortcut':
+  ensure  => file,
+  path    => "/home/${default_user}/Desktop/lxqt-archiver.desktop",
+  source  => '/usr/share/applications/lxqt-archiver.desktop',
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0644',
+  require => [
+    Package['desktop'],
+    File['default_user_desktop_folder'],
+    File_line['simplify-lxqt-archiver-name'],
+  ],
+}
+
+exec { 'gvfs-trust-lxqt-archiver-desktop-shortcut':
+  command     => "/usr/bin/gio set /home/${default_user}/Desktop/lxqt-archiver.desktop metadata::trusted true",
+  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/lxqt-archiver.desktop | /usr/bin/grep trusted",
+  user        => $default_user,
+  environment => [
+    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
+  ],
+  require     => File['lxqt-archiver-desktop-shortcut'],
+}
