@@ -1,10 +1,27 @@
 ###
-# Puppet Script for a Desktop Developer Environment on Ubuntu 22.04
+# Puppet Script for a Desktop Developer Environment using LXQT on Ubuntu 22.04
 ###
 
+file { 'disable-screensaver':
+  ensure  => file,
+  path    => "/home/${default_user}/.xscreensaver",
+  replace => false,
+  mode    => '0664',
+  content => 'mode:    off',
+}
+
+file_line { 'disable-screensaver':
+  ensure  => present,
+  path    => "/home/${default_user}/.xscreensaver",
+  line    => 'mode:    off',
+  match   => '^mode:',
+  require => File['disable-screensaver'],
+}
+
 package { 'desktop':
-  ensure => installed,
-  name   => 'lubuntu-desktop',
+  ensure  => installed,
+  name    => 'lubuntu-desktop',
+  require => File_line['disable-screensaver'],
 }
 
 file { 'default_user_desktop_folder':
