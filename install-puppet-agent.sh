@@ -24,8 +24,11 @@ fi
 /opt/puppetlabs/bin/puppet module install puppetlabs-sshkeys_core
 /opt/puppetlabs/bin/puppet module install puppetlabs-vcsrepo
 /opt/puppetlabs/bin/puppet module install puppetlabs-augeas_core
+/opt/puppetlabs/bin/puppet module install puppet-nginx
 
 if [ -n "$(command -v yum)" ]; then
 	/opt/puppetlabs/bin/puppet module install puppet-yum
+elif [ -n "$(command -v apt)" ]; then
+	/opt/puppetlabs/bin/puppet module install puppetlabs-apt
 fi
 
