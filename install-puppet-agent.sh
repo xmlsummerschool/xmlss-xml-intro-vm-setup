@@ -25,6 +25,7 @@ fi
 /opt/puppetlabs/bin/puppet module install puppetlabs-vcsrepo
 /opt/puppetlabs/bin/puppet module install puppetlabs-augeas_core
 /opt/puppetlabs/bin/puppet module install puppet-nginx
+/opt/puppetlabs/bin/puppet module install puppet-letsencrypt
 
 if [ -n "$(command -v yum)" ]; then
 	/opt/puppetlabs/bin/puppet module install puppet-yum
