@@ -111,6 +111,7 @@ cd xml-developer-vm-setup
 sudo FACTER_default_user_password=mypassword \
      FACTER_existdb_db_admin_password=xmldev \
      FACTER_existdb_version=7.0.0-SNAPSHOT \
+     FACTER_postgresql_db_postgres_password=postgres \
      /opt/puppetlabs/bin/puppet apply .
 ```
 
