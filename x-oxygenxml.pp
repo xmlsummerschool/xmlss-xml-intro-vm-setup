@@ -1,3 +1,7 @@
+###
+# Puppet Script for oXygen XML Editor on Ubuntu 22.04
+###
+
 $oxygen_version = '26.0'
 
 file { "/opt/oxygen-${oxygen_version}":
@@ -58,4 +62,57 @@ exec { 'gvfs-trust-oxygen-desktop-shortcut':
     'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
   ],
   require     => File['oxygen-desktop-shortcut'],
+}
+
+# oXygen License file
+file { 'oxygen-user-settings-path':
+  ensure  => directory,
+  path    => "/home/${default_user}/.com.oxygenxml",
+  replace => false,
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0775',
+}
+
+$oxygen_license_xml = @(OXYGEN_LICENSE_XML_EOF:xml/L)
+  <?xml version="1.0" encoding="UTF-8"?>
+  <serialized xml:space="preserve">
+    <serializableOrderedMap>
+      <entry>
+        <String>license.26</String>
+        <String>------START-LICENSE-KEY------
+
+Registration_Name=Evolved Binary - trial
+
+Company=Evolved Binary
+
+Category=Enterprise
+
+Component=XML-Editor, XSLT-Debugger, Saxon-SA
+
+Version=26
+
+Number_of_Licenses=10
+
+Date=02-09-2024
+
+Trial=35
+
+SGN=MCwCFCCKQhNd3MTGOTv9j7m+bZ+3RaHzAhQXSepcF2MY6Zc/XmEiRvgr1J89Ew\=\=
+
+-------END-LICENSE-KEY-------</String>
+      </entry>
+    </serializableOrderedMap>
+  </serialized>
+  | OXYGEN_LICENSE_XML_EOF
+
+file { 'oxygen-license':
+  ensure  => file,
+  path    => "/home/${default_user}/.com.oxygenxml/license.xml",
+  replace => false,
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0664',
+  content => $oxygen_license_xml,
+  require => File['oxygen-user-settings-path'],
 }
