@@ -24,6 +24,14 @@ package { 'desktop':
   require => File_line['disable-screensaver'],
 }
 
+# Workaround for https://bugs.launchpad.net/ubuntu/+source/lubuntu-default-settings/+bug/1708200
+file { 'xterm':
+  ensure  => link,
+  path    => '/usr/bin/xterm',
+  target  => '/usr/bin/qterminal',
+  require => Package['desktop'],
+}
+
 file { 'default_user_desktop_folder':
   ensure  => directory,
   path    => "/home/${default_user}/Desktop",
