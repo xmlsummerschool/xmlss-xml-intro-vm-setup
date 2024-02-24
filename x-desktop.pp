@@ -37,6 +37,22 @@ file { 'default_user_desktop_folder':
   ],
 }
 
+file_line { 'simplify-qterminalname-1':
+  ensure  => present,
+  path    => '/usr/share/applications/qterminal.desktop',
+  line    => 'Name=Terminal',
+  match   => '^Name\=QTerminal',
+  require => Package['desktop'],
+}
+
+file_line { 'simplify-qterminalname-2':
+  ensure  => present,
+  path    => '/usr/share/applications/qterminal.desktop',
+  line    => 'Name[en_GB]=Terminal',
+  match   => '^Name[en_GB]\=Qterminal',
+  require => Package['desktop'],
+}
+
 file { 'qterminal-desktop-shortcut':
   ensure  => file,
   path    => "/home/${default_user}/Desktop/qterminal.desktop",
@@ -47,6 +63,8 @@ file { 'qterminal-desktop-shortcut':
   require => [
     Package['desktop'],
     File['default_user_desktop_folder'],
+    File_line['simplify-qterminalname-1'],
+    File_line['simplify-qterminalname-2'],
   ],
 }
 
