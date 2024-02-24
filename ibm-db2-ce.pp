@@ -113,4 +113,38 @@ exec { 'install-sample-db':
 # DB2 JDBC driver - /opt/ibm/db2/V11.5/java/db2jcc4.jar
 ## JDBC connection string - jdbc:db2://localhost:25000/<database>
 
+# Add DB2 Client Desktop link
+file { 'db2-client-desktop-shortcut':
+  ensure  => file,
+  path    => "/home/${default_user}/Desktop/db2-client.desktop",
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0644',
+  content => "[Desktop Entry]
+Version=1.0
+Type=Application
+Name=DB2 Client
+Exec=su - db2inst1 -c db2
+Icon=${ibm_db2_path}/desktop/icons/db2.xpm
+Terminal=true
+StartupNotify=false
+GenericName=DB2 Client
+",
+  require => [
+    Package['desktop'],
+    File['default_user_desktop_folder'],
+    Exec['install-ibm-db2'],
+  ],
+}
+
+exec { 'gvfs-trust-db2-client-desktop-shortcut':
+  command     => "/usr/bin/gio set /home/${default_user}/Desktop/db2-client.desktop metadata::trusted true",
+  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/db2-client.desktop | /usr/bin/grep trusted",
+  user        => $default_user,
+  environment => [
+    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
+  ],
+  require     => File['db2-client-desktop-shortcut'],
+}
+
 # TODO(AR) - Add SQL files for data to the exercises folder
