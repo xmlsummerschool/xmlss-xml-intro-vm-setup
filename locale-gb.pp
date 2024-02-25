@@ -21,7 +21,7 @@ file { '/etc/default/keyboard':
 file_line { 'keyboard-layout':
   ensure => present,
   path   => '/etc/default/keyboard',
-  line   => 'XKBLAYOUT="gb,us"',
+  line   => 'XKBLAYOUT="gb,us,fr,nl"',
   match  => '^XKBLAYOUT\=',
 }
 
