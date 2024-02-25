@@ -9,7 +9,7 @@ $ibm_db2_path = "/opt/ibm/db2/V${ibm_db2_major_version}.${ibm_db2_minor_version}
 $ibm_db2_setup_response_file = '/tmp/db2server.rsp'
 
 exec { 'download-ibm-db2':
-  command => "curl https://s3.us-south.cloud-object-storage.appdomain.cloud/epwt-program-files/13463?response-content-disposition=attachment%3B%20filename%3D%22v${$ibm_db2_version}_linuxx64_server_dec.tar.gz%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240221T162510Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=37243a2f428a4803b9012abc82733744%2F20240221%2Fus%2Fs3%2Faws4_request&X-Amz-Signature=212330505b70680acc618779ecf207e94a0474b3f2c8600d3c2f5441a69495a4 | tar zxv -C /tmp",
+  command => "curl https://s3.us-south.cloud-object-storage.appdomain.cloud/epwt-program-files/13463?response-content-disposition=attachment%3B%20filename%3D%22v${ibm_db2_version}_linuxx64_server_dec.tar.gz%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240221T162510Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=37243a2f428a4803b9012abc82733744%2F20240221%2Fus%2Fs3%2Faws4_request&X-Amz-Signature=212330505b70680acc618779ecf207e94a0474b3f2c8600d3c2f5441a69495a4 | tar zxv -C /tmp",
   path    => '/usr/bin',
   user    => 'root',
   group   => 'root',
