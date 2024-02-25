@@ -2,12 +2,37 @@
 # Puppet Script for extra Desktop Shortcuts on Ubuntu 22.04
 ###
 
+file { 'dot-local':
+  ensure  => directory,
+  path    => "/home/${default_user}/.local",
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0700',
+  require => Package['desktop'],
+}
+
+file { 'dot-local-share':
+  ensure  => directory,
+  path    => "/home/${default_user}/.local/share",
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0700',
+  require => [
+    Package['desktop'],
+    File['dot-local'],
+  ],
+}
+
 file { 'local-icons':
   ensure  => directory,
   path    => "/home/${default_user}/.local/share/icons",
   owner   => $default_user,
   group   => $default_user,
-  require => Package['desktop'],
+  mode    => '0755',
+  require => [
+    Package['desktop'],
+    File['dot-local-share'],
+  ],
 }
 
 exec { 'download-existdb-x-logo':

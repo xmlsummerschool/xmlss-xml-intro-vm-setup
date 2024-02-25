@@ -14,7 +14,7 @@ exec { 'download-ibm-db2':
   user    => 'root',
   group   => 'root',
   creates => '/tmp/server_dec',
-  unless  => "file ${ibm_db2_path}",
+  unless  => "/usr/bin/file ${ibm_db2_path}",
   require => Package['curl'],
 }
 

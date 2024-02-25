@@ -2,6 +2,27 @@
 # Puppet Script for configuring LXQT Panel Shortcuts on Ubuntu 22.04
 ###
 
+file { 'dot-config':
+  ensure  => directory,
+  path    => "/home/${default_user}/.config",
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0700',
+  require => Package['desktop'],
+}
+
+file { 'dot-config-lxqt':
+  ensure  => directory,
+  path    => "/home/${default_user}/.config/lxqt",
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0700',
+  require => [
+    Package['desktop'],
+    File['dot-config'],
+  ],
+}
+
 $panel_conf = @("PANEL_EOF"/L)
   [General]
   __userfile__=true
@@ -83,6 +104,7 @@ file { 'panel':
   mode    => '0664',
   require => [
     Package['desktop'],
+    File['dot-config-lxqt'],
     File['google-chrome-desktop-shortcut'],
   ],
 }

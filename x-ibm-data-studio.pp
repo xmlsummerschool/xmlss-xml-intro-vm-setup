@@ -26,7 +26,7 @@ exec { 'download-ibm-data-studio':
   user    => 'root',
   group   => 'root',
   creates => "${ibm_data_studio_setup_path}/documentation/",
-  unless  => "file ${ibm_installation_manager_eclipse_path}",
+  unless  => "/usr/bin/file ${ibm_installation_manager_eclipse_path}",
   require => [
     Package['curl'],
     File['ibm-data-studio-setup-path']
@@ -47,7 +47,7 @@ exec { 'unzip-ibm-installation-manager-setup':
   path    => '/usr/bin',
   user    => 'root',
   group   => 'root',
-  unless  => "file ${ibm_installation_manager_eclipse_path}/IBMIM",
+  unless  => "/usr/bin/file ${ibm_installation_manager_eclipse_path}/IBMIM",
   require => [
     Exec['download-ibm-data-studio'],
     File['ibm-installation-manager-setup-path']
