@@ -51,6 +51,7 @@ exec { 'unzip-ibm-installation-manager-setup':
   unless  => "file ${ibm_installation_manager_eclipse_path}/IBMIM",
   require => [
     Package['file'],
+    Package['unzip'],
     Exec['download-ibm-data-studio'],
     File['ibm-installation-manager-setup-path']
   ],

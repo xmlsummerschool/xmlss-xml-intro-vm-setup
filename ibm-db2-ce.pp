@@ -18,7 +18,8 @@ exec { 'download-ibm-db2':
   require => [
     Package['file'],
     Package['curl'],
-  ]
+    Package['tar'],
+  ],
 }
 
 # Error: /Stage[main]/Main/Exec[download-ibm-db2]: Could not evaluate: Could not find command '/usr/bin/file'
