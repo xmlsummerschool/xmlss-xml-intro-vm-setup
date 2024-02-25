@@ -186,6 +186,10 @@ service { 'chronyd':
   require => Package['chrony'],
 }
 
+package { 'file':
+  ensure => installed,
+}
+
 package { 'zip':
   ensure => installed,
 }
