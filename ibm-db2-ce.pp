@@ -112,11 +112,21 @@ service { 'db2fmcd':
 }
 
 exec { 'install-sample-db':
-  command  => '/home/db2inst1/sqllib/bin/db2sampl',
-  user     => 'db2inst1',
-  creates  => '/home/db2inst1/db2inst1/NODE0000/SAMPLE',
-  provider => shell,
-  require  => Service['db2fmcd'],
+  command     => '/home/db2inst1/sqllib/bin/db2sampl',
+  cwd         => '/home/db2inst1',
+  environment => [
+    'DB2INSTANCE=db2inst1',
+    'DB2LIB=/home/db2inst1/sqllib/lib',
+    'DB2_HOME=/home/db2inst1/sqllib',
+    'IBM_DB_DIR=/home/db2inst1/sqllib',
+    'IBM_DB_HOME=/home/db2inst1/sqllib',
+    'IBM_DB_INCLUDE=/home/db2inst1/sqllib/include',
+  ],
+  user        => 'db2inst1',
+  group       => 'db2iadm1',
+  creates     => '/home/db2inst1/db2inst1/NODE0000/SAMPLE',
+  provider    => shell,
+  require     => Service['db2fmcd'],
 }
 
 # DB2 JDBC driver - /opt/ibm/db2/V11.5/java/db2jcc4.jar
