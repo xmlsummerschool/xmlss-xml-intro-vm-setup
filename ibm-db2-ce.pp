@@ -112,7 +112,7 @@ service { 'db2fmcd':
 }
 
 exec { 'install-sample-db':
-  command  => '/home/db2inst1/sqlllib/bin/db2sampl',
+  command  => '/home/db2inst1/sqllib/bin/db2sampl',
   user     => 'db2inst1',
   creates  => '/home/db2inst1/db2inst1/NODE0000/SAMPLE',
   provider => shell,
