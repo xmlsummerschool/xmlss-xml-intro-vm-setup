@@ -181,6 +181,38 @@ $user_mapping = @("USER_MAPPING_EOF":xml/L)
               <param name="drive-name">guacamole</param>
               <param name="drive-path">/guacamole-drive</param>
           </connection>
+          <authorize username="xmldev7" password="xmldev">
+          <connection name="xmldev7">
+              <protocol>rdp</protocol>
+              <param name="hostname">xmldev7.evolvedbinary.com</param>
+              <param name="port">3389</param>
+              <param name="username">ubuntu</param>
+              <param name="password">${xmldev_default_user_password}</param>
+              <param name="enable-touch">false</param>
+              <param name="resize-method">display-update</param>
+              <param name="disable-audio">true</param>
+              <param name="enable-printing">true</param>
+              <param name="printer-name">guacamole-client</param>
+              <param name="enable-drive">true</param>
+              <param name="drive-name">guacamole</param>
+              <param name="drive-path">/guacamole-drive</param>
+          </connection>
+          <authorize username="xmldev8" password="xmldev">
+          <connection name="xmldev8">
+              <protocol>rdp</protocol>
+              <param name="hostname">xmldev8.evolvedbinary.com</param>
+              <param name="port">3389</param>
+              <param name="username">ubuntu</param>
+              <param name="password">${xmldev_default_user_password}</param>
+              <param name="enable-touch">false</param>
+              <param name="resize-method">display-update</param>
+              <param name="disable-audio">true</param>
+              <param name="enable-printing">true</param>
+              <param name="printer-name">guacamole-client</param>
+              <param name="enable-drive">true</param>
+              <param name="drive-name">guacamole</param>
+              <param name="drive-path">/guacamole-drive</param>
+          </connection>
       </authorize>
   </user-mapping>
   | USER_MAPPING_EOF
