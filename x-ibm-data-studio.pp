@@ -21,7 +21,7 @@ file { 'ibm-data-studio-setup-path':
 }
 
 exec { 'download-ibm-data-studio':
-  command => "curl https://iwm.dhe.ibm.com/sdfdl/v2/regs2/smkane/DS22_IDETAB/Xa.2/Xb.ZaTctOS40LvTqXh53uXoCJnQ7X07SzdrjzL8w_BS2lo/Xc.ibm_ds4140_lin.tar.gz/Xd./Xf.lPr.D1vk/Xg.12700405/Xi.swg-idside/XY.regsrvs/XZ.2GyzNg7z8l1NQBRoZAf0IyBXbZd_3DCX/ibm_ds4140_lin.tar.gz | tar zxv -C ${ibm_data_studio_setup_path}",
+  command => "curl https://static.evolvedbinary.com/ibm/ibm_ds4140_lin.tar.gz | tar zxv -C ${ibm_data_studio_setup_path}",
   path    => '/usr/bin',
   user    => 'root',
   group   => 'root',
