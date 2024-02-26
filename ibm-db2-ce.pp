@@ -89,6 +89,10 @@ file { 'ibm-db2-setup-response-file':
   content => $ibm_db2_response_file,
 }
 
+package { 'libnuma1':
+  ensure => installed,
+}
+
 exec { 'install-ibm-db2':
   command  => "/tmp/server_dec/db2setup -r ${ibm_db2_setup_response_file}",
   user     => 'root',
@@ -98,6 +102,7 @@ exec { 'install-ibm-db2':
   require  => [
     Exec['download-ibm-db2'],
     File['ibm-db2-setup-response-file'],
+    Package['libnuma1'],
   ],
 }
 
