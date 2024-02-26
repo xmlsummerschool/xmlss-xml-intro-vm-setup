@@ -14,15 +14,13 @@ exec { 'download-ibm-db2':
   user    => 'root',
   group   => 'root',
   creates => '/tmp/server_dec',
-  unless  => "file ${ibm_db2_path}",
+  unless  => "test -f ${ibm_db2_path}",
   require => [
     Package['file'],
     Package['curl'],
     Package['tar'],
   ],
 }
-
-# Error: /Stage[main]/Main/Exec[download-ibm-db2]: Could not evaluate: Could not find command '/usr/bin/file'
 
 $ibm_db2_response_file = @("IBM_DB2_RESPONSE_FILE_EOF":xml/L)
   *-----------------------------------------------------
