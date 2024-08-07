@@ -1,6 +1,8 @@
 ###
-# Puppet Script for a Desktop Developer Environment using LXQT on Ubuntu 22.04
+# Puppet Script for a Desktop Developer Environment using LXQT on Ubuntu 24.04
 ###
+
+$desktop_background_image = "/home/${default_user}/Pictures/cityehrwork-desktop-background.png"
 
 file { 'disable-screensaver':
   ensure  => file,
@@ -43,6 +45,211 @@ file { 'default_user_desktop_folder':
     Package['desktop'],
     File['default_user_home'],
   ],
+}
+
+file { "/home/${default_user}/Pictures":
+  ensure => directory,
+  owner  => $default_user,
+  group  => $default_user,
+  mode   => '0755',
+}
+
+exec { 'download-desktop-background':
+  command => "curl https://static.evolvedbinary.com/cityehr/cityehrwork-desktop-background.png -o ${desktop_background_image}",
+  path    => '/usr/bin',
+  user    => $default_user,
+  creates => $desktop_background_image,
+  require => [
+    File["/home/${default_user}/Pictures"],
+    File['default_user_desktop_folder'],
+  ],
+}
+
+file { "/home/${default_user}/.config/pcmanfm-qt":
+  ensure => directory,
+  owner  => $default_user,
+  group  => $default_user,
+  mode   => '0775',
+}
+
+file { "/home/${default_user}/.config/pcmanfm-qt/lxqt":
+  ensure  => directory,
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0775',
+  require => File["/home/${default_user}/.config/pcmanfm-qt"],
+}
+
+file { 'settings.conf':
+  ensure  => file,
+  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/settings.conf",
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0664',
+  require => File["/home/${default_user}/.config/pcmanfm-qt/lxqt"],
+}
+
+ini_setting { 'desktop_background_image':
+  ensure  => present,
+  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/settings.conf",
+  section => 'Desktop',
+  setting => 'Wallpaper',
+  value   => $desktop_background_image,
+  require => [
+    Package['desktop'],
+    File['settings.conf'],
+    Exec['download-desktop-background'],
+  ],
+}
+
+ini_setting { 'desktop_background_mode':
+  ensure  => present,
+  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/settings.conf",
+  section => 'Desktop',
+  setting => 'WallpaperMode',
+  value   => 'fit',
+  require => [
+    Package['desktop'],
+    File['settings.conf'],
+    Exec['download-desktop-background'],
+  ],
+}
+
+ini_setting { 'desktop_background_color':
+  ensure  => present,
+  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/settings.conf",
+  section => 'Desktop',
+  setting => 'BgColor',
+  value   => '#f8e5bd',
+  require => [
+    Package['desktop'],
+    File['settings.conf'],
+    Exec['download-desktop-background'],
+  ],
+}
+
+$computer_desktop_shortcut = @("COMPUTER_DESKTOP_ENTRY_EOF"/L)
+  [Desktop Entry]
+  Type=Application
+  Exec=pcmanfm-qt computer:///
+  Icon=computer
+  Name=Computer
+  | COMPUTER_DESKTOP_ENTRY_EOF
+
+file { 'computer-desktop-shortcut':
+  ensure  => file,
+  path    => "/home/${default_user}/Desktop/computer.desktop",
+  content => $computer_desktop_shortcut,
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0644',
+  require => [
+    Package['desktop'],
+    File['default_user_desktop_folder'],
+  ],
+}
+
+exec { 'gvfs-trust-computer-desktop-shortcut':
+  command     => "/usr/bin/gio set /home/${default_user}/Desktop/computer.desktop metadata::trusted true",
+  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/computer.desktop | /usr/bin/grep trusted",
+  user        => $default_user,
+  environment => [
+    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
+  ],
+  require     => File['computer-desktop-shortcut'],
+}
+
+$user_home_desktop_shortcut = @("USER_HOME_DESKTOP_ENTRY_EOF"/L)
+  [Desktop Entry]
+  Type=Application
+  Exec=pcmanfm-qt /home/ubuntu
+  Icon=user-home
+  Name=ubuntu
+  | USER_HOME_DESKTOP_ENTRY_EOF
+
+file { 'user-home-desktop-shortcut':
+  ensure  => file,
+  path    => "/home/${default_user}/Desktop/user-home.desktop",
+  content => $user_home_desktop_shortcut,
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0644',
+  require => [
+    Package['desktop'],
+    File['default_user_desktop_folder'],
+  ],
+}
+
+exec { 'gvfs-trust-user-home-desktop-shortcut':
+  command     => "/usr/bin/gio set /home/${default_user}/Desktop/user-home.desktop metadata::trusted true",
+  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/user-home.desktop | /usr/bin/grep trusted",
+  user        => $default_user,
+  environment => [
+    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
+  ],
+  require     => File['user-home-desktop-shortcut'],
+}
+
+$network_desktop_shortcut = @("NETWORK_DESKTOP_ENTRY_EOF"/L)
+  [Desktop Entry]
+  Type=Application
+  Exec=pcmanfm-qt network:///
+  Icon=folder-network
+  Name=Network
+  | NETWORK_DESKTOP_ENTRY_EOF
+
+file { 'network-desktop-shortcut':
+  ensure  => file,
+  path    => "/home/${default_user}/Desktop/network.desktop",
+  content => $network_desktop_shortcut,
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0644',
+  require => [
+    Package['desktop'],
+    File['default_user_desktop_folder'],
+  ],
+}
+
+exec { 'gvfs-trust-network-desktop-shortcut':
+  command     => "/usr/bin/gio set /home/${default_user}/Desktop/network.desktop metadata::trusted true",
+  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/network.desktop | /usr/bin/grep trusted",
+  user        => $default_user,
+  environment => [
+    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
+  ],
+  require     => File['network-desktop-shortcut'],
+}
+
+$trash_can_desktop_shortcut = @("NETWORK_DESKTOP_ENTRY_EOF"/L)
+  [Desktop Entry]
+  Type=Application
+  Exec=pcmanfm-qt trash:///
+  Icon=user-trash
+  Name=Trash (Empty)
+  | NETWORK_DESKTOP_ENTRY_EOF
+
+file { 'trash-can-desktop-shortcut':
+  ensure  => file,
+  path    => "/home/${default_user}/Desktop/trash-can.desktop",
+  content => $trash_can_desktop_shortcut,
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0644',
+  require => [
+    Package['desktop'],
+    File['default_user_desktop_folder'],
+  ],
+}
+
+exec { 'gvfs-trust-trash-can-desktop-shortcut':
+  command     => "/usr/bin/gio set /home/${default_user}/Desktop/trash-can.desktop metadata::trusted true",
+  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/trash-can.desktop | /usr/bin/grep trusted",
+  user        => $default_user,
+  environment => [
+    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
+  ],
+  require     => File['trash-can-desktop-shortcut'],
 }
 
 file_line { 'simplify-qterminalname-1':
@@ -149,3 +356,34 @@ exec { 'gvfs-trust-lxqt-archiver-desktop-shortcut':
   ],
   require     => File['lxqt-archiver-desktop-shortcut'],
 }
+
+file { 'desktop-items-0':
+  ensure  => file,
+  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0644',
+  require => File["/home/${default_user}/.config/pcmanfm-qt/lxqt"],
+}
+
+# Position the Desktop icons
+inifile::create_ini_settings( {
+    'computer.desktop'      => { 'pos' => '@Point(12 12)' },
+    'user-home.desktop'     => { 'pos' => '@Point(12 138)' },
+    'network.desktop'       => { 'pos' => '@Point(12 264)' },
+    'trash-can.desktop'     => { 'pos' => '@Point(12 390)' },
+    'pcmanfm-qt.desktop'    => { 'pos' => '@Point(12 516)' },
+    'lxqt-archiver.desktop' => { 'pos' => '@Point(12 642)' },
+    'qterminal.desktop'     => { 'pos' => '@Point(12 768)' },
+  }, {
+    ensure => present,
+    path => "/home/${default_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
+    require => [
+      Package['desktop'],
+      File['desktop-items-0'],
+      File['pcmanfm-qt-desktop-shortcut'],
+      File['lxqt-archiver-desktop-shortcut'],
+      File['qterminal-desktop-shortcut'],
+    ]
+  }
+)

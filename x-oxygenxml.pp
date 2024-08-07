@@ -1,5 +1,5 @@
 ###
-# Puppet Script for oXygen XML Editor on Ubuntu 22.04
+# Puppet Script for oXygen XML Editor on Ubuntu 24.04
 ###
 
 $oxygen_version = '26.0'
@@ -31,22 +31,25 @@ file { '/opt/oxygen':
   require => File["/opt/oxygen-${oxygen_version}"],
 }
 
+$oxygen_desktop_shortcut = @("OXYGEN_DESKTOP_ENTRY_EOF"/L)
+  [Desktop Entry]
+  Version=1.0
+  Type=Application
+  Name=Oxygen XML Editor
+  Exec=/opt/oxygen/oxygen.sh
+  Icon=/opt/oxygen/Oxygen128.png
+  Terminal=false
+  StartupNotify=false
+  GenericName=Oxygen XML Editor
+  | OXYGEN_DESKTOP_ENTRY_EOF
+
 file { 'oxygen-desktop-shortcut':
   ensure  => file,
   path    => "/home/${default_user}/Desktop/oxygen.desktop",
   owner   => $default_user,
   group   => $default_user,
   mode    => '0644',
-  content => "[Desktop Entry]
-Version=1.0
-Type=Application
-Name=Oxygen XML Editor
-Exec=/opt/oxygen/oxygen.sh
-Icon=/opt/oxygen/Oxygen128.png
-Terminal=false
-StartupNotify=false
-GenericName=Oxygen XML Editor
-",
+  content => $oxygen_desktop_shortcut,
   require => [
     Package['desktop'],
     File['default_user_desktop_folder'],
@@ -62,6 +65,18 @@ exec { 'gvfs-trust-oxygen-desktop-shortcut':
     'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
   ],
   require     => File['oxygen-desktop-shortcut'],
+}
+
+ini_setting { 'oxygen-desktop-shortcut-position':
+  ensure  => present,
+  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
+  section => 'oxygen.desktop',
+  setting => 'pos',
+  value   => '@Point(139 642)',
+  require => [
+    File['desktop-items-0'],
+    File['oxygen-desktop-shortcut'],
+  ],
 }
 
 # oXygen License file
@@ -82,9 +97,9 @@ $oxygen_license_xml = @(OXYGEN_LICENSE_XML_EOF:xml/L)
         <String>license.26</String>
         <String>------START-LICENSE-KEY------
 
-Registration_Name=Evolved Binary - trial
+Registration_Name=adam @ evolvedbinary . com
 
-Company=Evolved Binary
+Company=Evolved-Binary
 
 Category=Enterprise
 
@@ -92,13 +107,14 @@ Component=XML-Editor, XSLT-Debugger, Saxon-SA
 
 Version=26
 
-Number_of_Licenses=10
+Number_of_Licenses=1
 
-Date=02-09-2024
+Date=08-11-2024
 
-Trial=35
+Trial=31
 
-SGN=MCwCFCCKQhNd3MTGOTv9j7m+bZ+3RaHzAhQXSepcF2MY6Zc/XmEiRvgr1J89Ew\=\=
+SGN=MC0CFGjG5UoYXFgFp7RETxpDsc7sQFZ8AhUAkChX37mD/UDra5OZu2HH0IJdfsg\=
+
 
 -------END-LICENSE-KEY-------</String>
       </entry>
