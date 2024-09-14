@@ -1,62 +1,53 @@
 # cityEHR Workshop - Virtual Machine
 
-The following instructions will configure a Virtual Machine for the purposes of teaching a cityEHR workshop.
+The following instructions will enable you to setup two things:
 
-By the following these instructions you will have a Virtual Environment with the following software configured:
+1. An [Apache Guacamole](https://guacamole.apache.org/) server that will provide a website for accessing remote machines through a Web Browser.
 
-* Ubuntu 24.04 (x86_64)
+2. One or More Virtual Machines configured with all of the software required for the purpose of teaching a cityEHR workshop.
 
-* Desktop Environment
-	* X.org
-	* LXQt
-	* Chromium
-	* Firefox
+## Obtaining Servers
 
-* Java Development Environment
-	* JDK 11
-	* JDK 17
-	* Apache Maven 3
-	* IntelliJ IDEA CE
-	* Apache Tomcat 9
+This can be setup either in [AWS EC2](https://aws.amazon.com/ec2/), or another Virtual Environment such as KVM running on a Linux Server.
+The environment (which provided 1x Guacamole Server, and 9x cityEHR Virtual Machines) and that was used for the workshops delivered in Ukraine (August 2024) and XML Summer School (September 2024) was Ubuntu 24.04 running on a bare-metal server leased by Evolved Binary from [Hetzner](https://www.hetzner.com/) in Germany, with the following configuration:
+* Xeon E5-1650 v3 @ 3.50GHz (6 Cores / 12 Threads)
+* 128 GB RAM
+* 2x 480GB SSD in RAID 1
 
-* Database Environment
-	* MariaDB Server and Client
-	* MySQL Workbench
-	* DBeaver
+Below we detail two options for setting up Virtual Machines: 1. Hetzner bare-metal server, and 2. AWS EC2.
 
-* cityEHR
+### 1. Setting up a new Linux KVM VM (optional)
 
-* cityEHR Workshop Tools
-	* Oxygen XML Editor
-	* LibreOffice
-	* Protégé
-	* Inkscape
-	* GanttProject
-	* FreeMind
-	* BOUML
+If you have leased a server from someone like Hetzner with Ubuntu 24.04 installed and wish to set this all up using KVM to host your VMs, then on the server (KVM host) you should run the following commands (assuming an Evolved Binary Server in Hetzner):
 
-* Visual Studio Code
+```shell
+git clone --single-branch --branch hetzner https://github.com/adamretter/soyoustart hetzner
+cd ~/hetzner
 
-* Miscellaneous Tools
-	* Zsh and OhMyZsh
-	* Git
-	* cURL
-	* wget
-	* Screen
-	* tar, gzip, bzip2, zstd, zip (and unzip)
+sudo uvt-simplestreams-libvirt sync --source=http://cloud-images.ubuntu.com/minimal/releases arch=amd64 release=noble
+
+./create-uvt-kvm.sh --hostname cityehrwork1 --release noble --memory 14336 --disk 30 --cpu 4 --bridge virbr1 --ip 5.9.214.101 --ip6 2a01:4f8:212:be9::101 --gateway 136.243.43.238 --gateway6 2a01:4f8:212:be9::2 --dns 213.133.100.100 --dns 213.133.99.99 --dns 213.133.98.98 --dns-search evolvedbinary.com --autostart
+```
+
+**NOTE**: The VM specific settings are:
+* `--hostname` `cityehrwork1`
+* `--ip` `5.9.214.101`
+* `--ip6` `2a01:4f8:212:be9::101`
+
+**NOTE**: The network settings specific to the host are:
+* `--bridge` `virbr1`
+* `--gateway` `136.243.43.238`
+* `--gateway6` `2a01:4f8:212:be9::2`
+
+**NOTE**: The network settings specific to the hosting provider are:
+* `--dns 213.133.100.100`, `--dns 213.133.99.99`, `--dns 213.133.98.98`
 
 
-We expect to start from a clean Ubuntu Server, or Ubuntu Cloud Image install. This has been tested with Ubuntu version 24.04 LTS.
+### 2. Setting up a new AWS EC2 Instance (optional)
 
+If you wish to set this up in AWS EC2, then for each Virtual Machine you need should setup a new EC2 instance with the following properties:
 
-This can be setup either in AWS EC2, or another Virtual Environment such as KVM on Linux.
-
-
-## Setting up a new AWS EC2 Instance
-
-If you wish to set this up in AWS EC2, then you should setup a new EC2 instance with the following properties:
-
-1. Name the instance 'cityehrwork1'.
+1. Name the instance 'cityehrwork1'. (change the `1` as needed for more machines).
 
 2. Select the `Ubuntu Server 24.04 LTS (HVM), SSD Volume Type` AMI image, and the Architecture `amd64`.
 
@@ -69,88 +60,13 @@ If you wish to set this up in AWS EC2, then you should setup a new EC2 instance 
 6. Set the default Root Volume as an `EBS` `30 GiB` volume on `GP3` at `3000 IOPS` and `125 MiB throughput`.
 
 
-## Setting up a new Linux KVM VM
+## Installing Guacamole Server
 
-If you wish to set this up in a KVM VM, then on the KVM host (assuming Ubuntu as the host OS) you should run the following commands (assuming an Evolved Binary Server in Hetzner):
+Apache Guacamole provides a web interface for accessing any virtual machine remotely. This is used so that students only need a web-browser. The student accesses Guacamole, and then Guacamole connects them to the remote virtual machine.
 
-```
-git clone --single-branch --branch hetzner https://github.com/adamretter/soyoustart hetzner
-cd ~/hetzner
-sudo uvt-simplestreams-libvirt sync --source=http://cloud-images.ubuntu.com/minimal/releases arch=amd64 release=noble
-./create-uvt-kvm.sh --hostname cityehrwork1 --release noble --memory 14336 --disk 30 --cpu 4 --bridge virbr1 --ip 5.9.214.101 --ip6 2a01:4f8:212:be9::101 --gateway 136.243.43.238 --gateway6 2a01:4f8:212:be9::2 --dns 213.133.100.100 --dns 213.133.99.99 --dns 213.133.98.98 --dns-search evolvedbinary.com --autostart
-```
+Guacamole should be run in its own virtual machine. To install Guacamole and configure it for cityEHR run the following commands on a new VM:
 
-NOTE: The VM specific settings are:
-* `--hostname` `cityehrwork1`
-* `--ip` `5.9.214.101`
-* `--ip6` `2a01:4f8:212:be9::101`
-
-NOTE: The network settings specific to the host are:
-* `--bridge` `virbr1`
-* `--gateway` `136.243.43.238`
-* `--gateway6` `2a01:4f8:212:be9::2`
-
-NOTE: The network settings specific to the hosting provider are:
-* `--dns 213.133.100.100`, `--dns 213.133.99.99`, `--dns 213.133.98.98`
-
-
-
-## Installing and Running Puppet to Configure the VM
-
-```
-git clone https://github.com/evolvedbinary/cityehr-workshop-vm-setup.git
-cd cityehr-workshop-vm-setup
-rm -rf guacamole
-sudo ./install-puppet-agent.sh
-
-sudo /opt/puppetlabs/bin/puppet apply locale-gb.pp
-
-sudo FACTER_default_user_password=mypassword \
-     /opt/puppetlabs/bin/puppet apply base.pp
-```
-
-* `default_user_password` this is the password to set for the default linux user (typically the user is named `ubuntu` on Ubuntu Cloud images).
-
-**NOTE:** you should set your own passwords appropriately above!
-
-We have to restart the system after the above as it may install a new Kernel and make changes to settings that require a system reboot. So:
-
-```
-sudo shutdown -r now
-```
-
-After the system restarts and you have logged in, you need to resume from the `cityehr-workshop-vm-setup` repo checkout:
-
-```
-cd cityehr-workshop-vm-setup
-sudo FACTER_default_user_password=mypassword \
-     FACTER_mariadb_db_root_password=cityehrwork \
-     /opt/puppetlabs/bin/puppet apply .
-```
-
-* `default_user_password` this is the password to set for the default linux user (typically the user is named `ubuntu` on Ubuntu Cloud images).
-* `mariadb_db_root_password` - This is the password to set for the `root` user in MariaDB.
-
-**NOTE:** you should set your own passwords appropriately above!
-
-We have to restart the system after the above as it installs a new desktop login manager.
-
-```
-sudo shutdown -r now
-```
-
-(-[1-9A-Za-z-][0-9A-Za-z-]*(\.[1-9A-Za-z-][0-9A-Za-z-]*)*)?
-
-
-### Load the data into the db
-
-TODO(AR)
-
-## Install Guacamole Server
-
-On a separate VM:
-
-```
+```shell
 git clone https://github.com/evolvedbinary/cityehr-workshop-vm-setup.git
 cd cityehr-workshop-vm-setup
 sudo ./install-puppet-agent.sh
@@ -161,17 +77,17 @@ sudo FACTER_default_user_password=mypassword2 \
      /opt/puppetlabs/bin/puppet apply base.pp
 ```
 
-**NOTE:** you should set your own passwords appropriately above!
+**NOTE:** you should set your own passwords appropriately above! The `default_user_password` is used for the Linux user that can access the machine, the username is `ubuntu`.
 
-We have to restart the system after the above as it may install a new Kernel and make changes to settings that require a system reboot. So:
+We have to restart the system after the above as it may install a new Kernel and make changes to settings that require a system reboot. So run:
 
-```
+```shell
 sudo shutdown -r now
 ```
 
 After the system restarts and you have logged in, you need to resume from the `cityehr-workshop-vm-setup/guacamole` repo checkout:
 
-```
+```shell
 cd cityehr-workshop-vm-setup/guacamole
 
 sudo FACTER_default_user_password=mypassword2 \
@@ -179,3 +95,128 @@ sudo FACTER_default_user_password=mypassword2 \
      /opt/puppetlabs/bin/puppet apply .
 ```
 
+**NOTE:** you should set your own passwords appropriately above!
+
+* `default_user_password` this is the password to set for the default linux user on this machine (typically the user is named `ubuntu` on Ubuntu Cloud images).
+* `cityehrwork_default_user_password` should be set to the password of the default user on the remote (cityEHR workstation) virtual machines that you are trying to access.
+
+After installation Guacamole's Web Server should be accessible from: [http://localhost:8080](http://localhost:8080), but should be accessible (via an nginx reverse proxy) from: [https://localhost](https://localhost)
+
+
+## Installing a cityEHR Workstation
+
+You can install one or more cityEHR workstations, each should be configured within its own virtual (or physical) machine. We expect to start from a clean Ubuntu Server, or Ubuntu Cloud Image install. This has been tested with Ubuntu version 24.04 LTS (x86_64).
+
+### cityEHR Software Environment
+
+The following software will be configured:
+
+* Desktop Environment
+	* X.org
+	* LXQt
+	* Chromium
+	* Firefox
+	* Okular
+
+* Java Development Environment
+	* JDK 11
+	* JDK 17
+	* Apache Maven 3
+	* IntelliJ IDEA CE
+	* Apache Tomcat 9
+	* Quercus
+
+* Database Environment
+	* MariaDB Server and Client
+	* MySQL Workbench
+	* DBeaver
+
+* cityEHR
+
+* cityEHR Workshop Tools
+	* Mirth Connect and Mirth Administrator
+	* Oxygen XML Editor
+	* LibreOffice
+	* Protégé
+	* Inkscape
+	* GanttProject
+	* FreeMind
+	* BOUML
+	* Modelio
+
+* Visual Studio Code
+
+* Miscellaneous Tools
+	* Nullmailer
+	* Zsh and OhMyZsh
+	* Git
+	* cURL
+	* wget
+	* Screen
+	* tar, gzip, bzip2, zstd, zip (and unzip)
+
+
+### Installing a cityEHR Workstation
+
+Each cityEHR Workstation should be run in its own virtual machine. To install a cityEHR workstation run the following commands on a new VM:
+
+```shell
+git clone https://github.com/evolvedbinary/cityehr-workshop-vm-setup.git
+cd cityehr-workshop-vm-setup
+sudo ./install-puppet-agent.sh
+
+cd workstation
+
+sudo /opt/puppetlabs/bin/puppet apply locale-gb.pp
+
+sudo FACTER_default_user_password=mypassword \
+     /opt/puppetlabs/bin/puppet apply base.pp
+```
+
+**NOTE:** you should set your own passwords appropriately above!
+
+* `default_user_password` this is the password to set for the default linux user on this machine (typically the user is named `ubuntu` on Ubuntu Cloud images).
+
+We have to restart the system after the above as it may install a new Kernel and make changes to settings that require a system reboot. So:
+
+```shell
+sudo shutdown -r now
+```
+
+After the system restarts and you have logged in, you need to resume from the `cityehr-workshop-vm-setup/workstation` repo checkout:
+
+```shell
+cd cityehr-workshop-vm-setup/workstation
+sudo FACTER_default_user_password=mypassword \
+     FACTER_mariadb_db_root_password=cityehrwork \
+     /opt/puppetlabs/bin/puppet apply .
+```
+
+**NOTE:** you should set your own passwords appropriately above!
+
+* `default_user_password` this is the password to set for the default linux user (typically the user is named `ubuntu` on Ubuntu Cloud images). It needs to be the same as the password you used for this above.
+* `mariadb_db_root_password` - This is the password to set for the `root` user in MariaDB.
+
+We have to restart the system after the above as it installs a new desktop login manager.
+
+```shell
+sudo shutdown -r now
+```
+
+After installation you should be able to access this instance using either one of two mechanisms:
+
+1. Directly, by using an RDP (Remote Desktop Protocol) client, e.g. Microsoft Remote Desktop. This approach usually gives the most responsive performance for the user.
+	* Clients:
+		* **Windows** - run `mstsc.exe`
+		* **Mac** - Install and run (Microsoft Remote Desktop](https://apps.apple.com/us/app/microsoft-remote-desktop/id1295203466?mt=12) from the Apple Store.
+		* **Linux** - run `rdesktop` (Ubuntu install: `apt-get install -y rdesktop && rdesktop`)
+	* Connection Settings:
+		* **Host**: The IP address or FQDN of the remote machine (e.g. `cityehrwork1.evolvedbinary.com`)
+		* **Username**: `ubuntu`
+		* **Password**: *the password you set above for `default_user_password`*
+
+
+2. Indirectly via the Guacamole website by visiting the website (e.g. [https://plum.evolvedbinary.com](https://plum.evolvedbinary.com)) in your web browser.
+	* Login details:
+		* **Username**: `cityehrwork1` (replace 1 with the number of the instance)
+		* **Password**: *the password you set above for `cityehrwork_default_user_password`*
