@@ -90,14 +90,21 @@ file { "/home/${default_user}/snap/firefox/common/.mozilla/firefox/${firefox_pro
   require => File["/home/${default_user}/snap/firefox/common/.mozilla/firefox"],
 }
 
-file_line { "/home/${default_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default/prefs.js":
+file { "/home/${default_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default/prefs.js":
   ensure  => file,
   owner   => $default_user,
   group   => $default_user,
   mode    => '0600',
-  content => 'user_pref("browser.startup.homepage", "http://localhost:8080/cityehr");',
+  require => File["/home/${default_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default"],
+}
+
+file_line { 'firefox-home-page':
+  ensure  => present,
+  path    => "/home/${default_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default/prefs.js",
+  line    => 'user_pref("browser.startup.homepage", "http://localhost:8080/cityehr");',
+  match   => '^user_pref\("browser\.startup\.homepage"',
   require => [
-    File["/home/${default_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default"],
+    File["/home/${default_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default/prefs.js"],
     Exec['download-cityehr'],
     Package['firefox'],
   ],
