@@ -26,6 +26,24 @@ package { 'desktop':
   require => File_line['disable-screensaver'],
 }
 
+ini_setting { 'lxqt-session-userfile':
+  ensure  => present,
+  path    => "/home/${default_user}/.config/lxqt/session.conf",
+  section => 'General',
+  setting => '__userfile__',
+  value   => 'true',
+  require => File['desktop'],
+}
+
+ini_setting { 'lxqt-session-window-manager':
+  ensure  => present,
+  path    => "/home/${default_user}/.config/lxqt/session.conf",
+  section => 'General',
+  setting => 'window_manager',
+  value   => 'xfwm4',
+  require => File['desktop'],
+}
+
 # Workaround for https://bugs.launchpad.net/ubuntu/+source/lubuntu-default-settings/+bug/1708200
 file { 'xterm':
   ensure  => link,
