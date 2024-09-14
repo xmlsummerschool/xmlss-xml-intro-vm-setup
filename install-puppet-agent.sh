@@ -2,14 +2,16 @@
 
 set -e
 
+DISTRO_CODENAME="$(lsb_release -sc)"
+
 if [ -n "$(command -v rpm)" ]; then
 	rpm -Uvh https://yum.puppet.com/puppet7-release-el-7.noarch.rpm
 	yum -y install puppet-agent
 elif [ -n "$(command -v dpkg)" ]; then
 	pushd /tmp
-	wget https://apt.puppetlabs.com/puppet7-release-jammy.deb
-	dpkg -i puppet7-release-jammy.deb
-	rm puppet7-release-jammy.deb
+	wget https://apt.puppetlabs.com/puppet7-release-$DISTRO_CODENAME.deb
+	dpkg -i puppet7-release-$DISTRO_CODENAME.deb
+	rm puppet7-release-$DISTRO_CODENAME.deb
 	popd
 	apt-get update
 	apt-get install -y puppet-agent
