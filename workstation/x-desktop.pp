@@ -32,7 +32,7 @@ ini_setting { 'lxqt-session-userfile':
   section => 'General',
   setting => '__userfile__',
   value   => 'true',
-  require => File['desktop'],
+  require => Package['desktop'],
 }
 
 ini_setting { 'lxqt-session-window-manager':
@@ -41,7 +41,7 @@ ini_setting { 'lxqt-session-window-manager':
   section => 'General',
   setting => 'window_manager',
   value   => 'xfwm4',
-  require => File['desktop'],
+  require => Package['desktop'],
 }
 
 # Workaround for https://bugs.launchpad.net/ubuntu/+source/lubuntu-default-settings/+bug/1708200
