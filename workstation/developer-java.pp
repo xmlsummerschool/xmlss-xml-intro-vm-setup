@@ -34,6 +34,7 @@ package { 'temurin-17-jdk':
   ensure  => installed,
   require => [
     Apt::Source['adoptium'],
+    Exec['apt_update'],
     Package['openjdk-11-jdk'],
   ],
 }
