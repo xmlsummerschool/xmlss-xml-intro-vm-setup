@@ -62,7 +62,7 @@ vcsrepo { 'guacamole-server-source':
   path               => $guacamole_server_source_folder,
   provider           => git,
   source             => 'https://github.com/apache/guacamole-server.git',
-  revision           => 'master',
+  revision           => 'main',
   keep_local_changes => false,  # TODO(AR) change this to 'true' once https://github.com/puppetlabs/puppetlabs-vcsrepo/pull/623 is merged and released
   owner              => $default_user,
   group              => $default_user,

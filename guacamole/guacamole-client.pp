@@ -18,7 +18,7 @@ vcsrepo { 'guacamole-client-source':
   path               => $guacamole_client_source_folder,
   provider           => git,
   source             => 'https://github.com/apache/guacamole-client.git',
-  revision           => 'master',
+  revision           => 'main',
   keep_local_changes => false,  # TODO(AR) change this to 'true' once https://github.com/puppetlabs/puppetlabs-vcsrepo/pull/623 is merged and released
   owner              => $default_user,
   group              => $default_user,
@@ -84,13 +84,13 @@ file { '/etc/guacamole/guacamole.properties':
 
 $user_mapping = @("USER_MAPPING_EOF":xml/L)
   <user-mapping>
-      <authorize username="cityehrwork1" password="cityehrwork">
-          <connection name="cityehrwork1">
+      <authorize username="xmlss1" password="xmlss">
+          <connection name="xmlss1">
               <protocol>rdp</protocol>
-              <param name="hostname">cityehrwork1.evolvedbinary.com</param>
+              <param name="hostname">xmlss1.evolvedbinary.com</param>
               <param name="port">3389</param>
               <param name="username">ubuntu</param>
-              <param name="password">${cityehrwork_default_user_password}</param>
+              <param name="password">${xmlss_default_user_password}</param>
               <param name="enable-touch">false</param>
               <param name="resize-method">display-update</param>
               <param name="disable-audio">true</param>
@@ -101,13 +101,13 @@ $user_mapping = @("USER_MAPPING_EOF":xml/L)
               <param name="drive-path">/guacamole-drive</param>
           </connection>
       </authorize>
-      <authorize username="cityehrwork2" password="cityehrwork">
-          <connection name="cityehrwork2">
+      <authorize username="xmlss2" password="xmlss">
+          <connection name="xmlss2">
               <protocol>rdp</protocol>
-              <param name="hostname">cityehrwork2.evolvedbinary.com</param>
+              <param name="hostname">xmlss2.evolvedbinary.com</param>
               <param name="port">3389</param>
               <param name="username">ubuntu</param>
-              <param name="password">${cityehrwork_default_user_password}</param>
+              <param name="password">${xmlss_default_user_password}</param>
               <param name="enable-touch">false</param>
               <param name="resize-method">display-update</param>
               <param name="disable-audio">true</param>
@@ -118,13 +118,13 @@ $user_mapping = @("USER_MAPPING_EOF":xml/L)
               <param name="drive-path">/guacamole-drive</param>
           </connection>
       </authorize>
-      <authorize username="cityehrwork3" password="cityehrwork">
-          <connection name="cityehrwork3">
+      <authorize username="xmlss3" password="xmlss">
+          <connection name="xmlss3">
               <protocol>rdp</protocol>
-              <param name="hostname">cityehrwork3.evolvedbinary.com</param>
+              <param name="hostname">xmlss3.evolvedbinary.com</param>
               <param name="port">3389</param>
               <param name="username">ubuntu</param>
-              <param name="password">${cityehrwork_default_user_password}</param>
+              <param name="password">${xmlss_default_user_password}</param>
               <param name="enable-touch">false</param>
               <param name="resize-method">display-update</param>
               <param name="disable-audio">true</param>
@@ -135,13 +135,13 @@ $user_mapping = @("USER_MAPPING_EOF":xml/L)
               <param name="drive-path">/guacamole-drive</param>
           </connection>
       </authorize>
-      <authorize username="cityehrwork4" password="cityehrwork">
-          <connection name="cityehrwork4">
+      <authorize username="xmlss4" password="xmlss">
+          <connection name="xmlss4">
               <protocol>rdp</protocol>
-              <param name="hostname">cityehrwork4.evolvedbinary.com</param>
+              <param name="hostname">xmlss4.evolvedbinary.com</param>
               <param name="port">3389</param>
               <param name="username">ubuntu</param>
-              <param name="password">${cityehrwork_default_user_password}</param>
+              <param name="password">${xmlss_default_user_password}</param>
               <param name="enable-touch">false</param>
               <param name="resize-method">display-update</param>
               <param name="disable-audio">true</param>
@@ -152,13 +152,13 @@ $user_mapping = @("USER_MAPPING_EOF":xml/L)
               <param name="drive-path">/guacamole-drive</param>
           </connection>
       </authorize>
-      <authorize username="cityehrwork5" password="cityehrwork">
-          <connection name="cityehrwork5">
+      <authorize username="xmlss5" password="xmlss">
+          <connection name="xmlss5">
               <protocol>rdp</protocol>
-              <param name="hostname">cityehrwork5.evolvedbinary.com</param>
+              <param name="hostname">xmlss5.evolvedbinary.com</param>
               <param name="port">3389</param>
               <param name="username">ubuntu</param>
-              <param name="password">${cityehrwork_default_user_password}</param>
+              <param name="password">${xmlss_default_user_password}</param>
               <param name="enable-touch">false</param>
               <param name="resize-method">display-update</param>
               <param name="disable-audio">true</param>
@@ -169,13 +169,13 @@ $user_mapping = @("USER_MAPPING_EOF":xml/L)
               <param name="drive-path">/guacamole-drive</param>
           </connection>
       </authorize>
-      <authorize username="cityehrwork6" password="cityehrwork">
-          <connection name="cityehrwork6">
+      <authorize username="xmlss6" password="xmlss">
+          <connection name="xmlss6">
               <protocol>rdp</protocol>
-              <param name="hostname">cityehrwork6.evolvedbinary.com</param>
+              <param name="hostname">xmlss6.evolvedbinary.com</param>
               <param name="port">3389</param>
               <param name="username">ubuntu</param>
-              <param name="password">${cityehrwork_default_user_password}</param>
+              <param name="password">${xmlss_default_user_password}</param>
               <param name="enable-touch">false</param>
               <param name="resize-method">display-update</param>
               <param name="disable-audio">true</param>
@@ -186,13 +186,13 @@ $user_mapping = @("USER_MAPPING_EOF":xml/L)
               <param name="drive-path">/guacamole-drive</param>
           </connection>
         </authorize>
-        <authorize username="cityehrwork7" password="cityehrwork">
-          <connection name="cityehrwork7">
+        <authorize username="xmlss7" password="xmlss">
+          <connection name="xmlss7">
               <protocol>rdp</protocol>
-              <param name="hostname">cityehrwork7.evolvedbinary.com</param>
+              <param name="hostname">xmlss7.evolvedbinary.com</param>
               <param name="port">3389</param>
               <param name="username">ubuntu</param>
-              <param name="password">${cityehrwork_default_user_password}</param>
+              <param name="password">${xmlss_default_user_password}</param>
               <param name="enable-touch">false</param>
               <param name="resize-method">display-update</param>
               <param name="disable-audio">true</param>
@@ -203,13 +203,13 @@ $user_mapping = @("USER_MAPPING_EOF":xml/L)
               <param name="drive-path">/guacamole-drive</param>
           </connection>
         </authorize>
-        <authorize username="cityehrwork8" password="cityehrwork">
-          <connection name="cityehrwork8">
+        <authorize username="xmlss8" password="xmlss">
+          <connection name="xmlss8">
               <protocol>rdp</protocol>
-              <param name="hostname">cityehrwork8.evolvedbinary.com</param>
+              <param name="hostname">xmlss8.evolvedbinary.com</param>
               <param name="port">3389</param>
               <param name="username">ubuntu</param>
-              <param name="password">${cityehrwork_default_user_password}</param>
+              <param name="password">${xmlss_default_user_password}</param>
               <param name="enable-touch">false</param>
               <param name="resize-method">display-update</param>
               <param name="disable-audio">true</param>
@@ -220,13 +220,13 @@ $user_mapping = @("USER_MAPPING_EOF":xml/L)
               <param name="drive-path">/guacamole-drive</param>
           </connection>
       </authorize>
-      <authorize username="cityehrwork9" password="cityehrwork">
-          <connection name="cityehrwork9">
+      <authorize username="xmlss9" password="xmlss">
+          <connection name="xmlss9">
               <protocol>rdp</protocol>
-              <param name="hostname">cityehrwork9.evolvedbinary.com</param>
+              <param name="hostname">xmlss9.evolvedbinary.com</param>
               <param name="port">3389</param>
               <param name="username">ubuntu</param>
-              <param name="password">${cityehrwork_default_user_password}</param>
+              <param name="password">${xmlss_default_user_password}</param>
               <param name="enable-touch">false</param>
               <param name="resize-method">display-update</param>
               <param name="disable-audio">true</param>
@@ -237,13 +237,13 @@ $user_mapping = @("USER_MAPPING_EOF":xml/L)
               <param name="drive-path">/guacamole-drive</param>
           </connection>
       </authorize>
-      <authorize username="cityehrwork10" password="cityehrwork">
-          <connection name="cityehrwork10">
+      <authorize username="xmlss10" password="xmlss">
+          <connection name="xmlss10">
               <protocol>rdp</protocol>
-              <param name="hostname">cityehrwork10.evolvedbinary.com</param>
+              <param name="hostname">xmlss10.evolvedbinary.com</param>
               <param name="port">3389</param>
               <param name="username">ubuntu</param>
-              <param name="password">${cityehrwork_default_user_password}</param>
+              <param name="password">${xmlss_default_user_password}</param>
               <param name="enable-touch">false</param>
               <param name="resize-method">display-update</param>
               <param name="disable-audio">true</param>
@@ -266,31 +266,16 @@ file { '/etc/guacamole/user-mapping.xml':
   require => File['/etc/guacamole'],
 }
 
-$tomcat_packages = ['tomcat9', 'tomcat9-admin', 'tomcat9-user']
-package { $tomcat_packages:
-  ensure  => installed,
-  require => Package['openjdk-17-jdk-headless'],
-}
-
 file { 'guacamole-war':
   ensure  => file,
-  path    => '/var/lib/tomcat9/webapps/guacamole.war',
-  source  => "${guacamole_client_source_folder}/guacamole/target/guacamole-1.5.5.war",
+  path    => '/opt/tomcat/webapps/guacamole.war',
+  source  => "${guacamole_client_source_folder}/guacamole/target/guacamole-1.6.0.war",
   require => [
     File['/etc/guacamole/guacamole.properties'],
     File['/etc/guacamole/user-mapping.xml'],
     File['/etc/guacamole/lib'],
     File['/etc/guacamole/extensions'],
     Exec['guacamole-client-compile'],
-    Package['tomcat9'],
-  ],
-}
-
-service { 'tomcat9':
-  ensure  => running,
-  enable  => true,
-  require => [
-    File['guacamole-war'],
-    Package['tomcat9'],
+    Service['tomcat'],
   ],
 }

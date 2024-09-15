@@ -152,3 +152,97 @@ ini_setting { 'ohi-desktop-shortcut-position':
     File['ohi-desktop-shortcut'],
   ],
 }
+
+$exercises_desktop_shortcut =  @("EXERCISES_SHORTCUT_EOF"/L)
+  [Desktop Entry]
+  Version=1.0
+  Name=Exercises
+  Exec=/usr/bin/google-chrome-stable https://drive.google.com/drive/u/1/folders/1kDva2n1aVIhzcCzhpyOlwaCu0Q11NgOC
+  StartupNotify=true
+  Terminal=false
+  Icon=/usr/share/icons/Adwaita/symbolic/places/folder-remote-symbolic.svg
+  Type=Application
+  | EXERCISES_SHORTCUT_EOF
+
+file { 'exercises-desktop-shortcut':
+  ensure  => file,
+  path    => "/home/${default_user}/Desktop/exercises.desktop",
+  content => $exercises_desktop_shortcut,
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0644',
+  require => [
+    Package['desktop'],
+    File['default_user_desktop_folder'],
+    Package['google-chrome-stable'],
+  ],
+}
+
+exec { 'gvfs-trust-exercises-desktop-shortcut':
+  command     => "/usr/bin/gio set /home/${default_user}/Desktop/exercises.desktop metadata::trusted true",
+  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/exercises.desktop | /usr/bin/grep trusted",
+  user        => $default_user,
+  environment => [
+    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
+  ],
+  require     => File['exercises-desktop-shortcut'],
+}
+
+ini_setting { 'exercises-shortcut-position':
+  ensure  => present,
+  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
+  section => 'exercises.desktop',
+  setting => 'pos',
+  value   => '@Point(393 516)',
+  require => [
+    File['desktop-items-0'],
+    File['exercises-desktop-shortcut'],
+  ],
+}
+
+$presentations_desktop_shortcut =  @("PRESENTATIONS_SHORTCUT_EOF"/L)
+  [Desktop Entry]
+  Version=1.0
+  Name=Presentations
+  Exec=/usr/bin/google-chrome-stable https://drive.google.com/drive/u/1/folders/1UGJDHXSCH2aAG4x50jc0ZEqI6UT_3Gi8
+  StartupNotify=true
+  Terminal=false
+  Icon=/usr/share/icons/Adwaita/symbolic/places/folder-remote-symbolic.svg
+  Type=Application
+  | PRESENTATIONS_SHORTCUT_EOF
+
+file { 'presentations-desktop-shortcut':
+  ensure  => file,
+  path    => "/home/${default_user}/Desktop/presentations.desktop",
+  content => $presentations_desktop_shortcut,
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0644',
+  require => [
+    Package['desktop'],
+    File['default_user_desktop_folder'],
+    Package['google-chrome-stable'],
+  ],
+}
+
+exec { 'gvfs-trust-presentations-desktop-shortcut':
+  command     => "/usr/bin/gio set /home/${default_user}/Desktop/presentations.desktop metadata::trusted true",
+  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/presentations.desktop | /usr/bin/grep trusted",
+  user        => $default_user,
+  environment => [
+    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
+  ],
+  require     => File['presentations-desktop-shortcut'],
+}
+
+ini_setting { 'presentations-shortcut-position':
+  ensure  => present,
+  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
+  section => 'presentations.desktop',
+  setting => 'pos',
+  value   => '@Point(393 642)',
+  require => [
+    File['desktop-items-0'],
+    File['presentations-desktop-shortcut'],
+  ],
+}

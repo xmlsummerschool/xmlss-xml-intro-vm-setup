@@ -4,6 +4,8 @@
 
 include ufw
 
+$fqn = 'melon.evolvedbinary.com'
+
 class { 'nginx':
   package_ensure  => installed,
   service_manage  => true,
@@ -25,19 +27,20 @@ nginx::resource::upstream { 'guacamole-server':
   },
 }
 
-nginx::resource::server { 'plum.evolvedbinary.com':
+# NOTE: SSL config is done further down
+nginx::resource::server { $fqdn:
   ensure              => present,
-  access_log          => '/var/log/nginx/plum.evolvedbinary.com_access.log',
+  access_log          => "/var/log/nginx/${fqdn}_access.log",
   listen_port         => 80,
   ipv6_enable         => true,
   ipv6_listen_options => '',
   ipv6_listen_port    => 80,
-  ssl                 => true,
-  ssl_redirect        => true,
-  ssl_cert            => '/etc/letsencrypt/live/plum.evolvedbinary.com/cert.pem',
-  ssl_key             => '/etc/letsencrypt/live/plum.evolvedbinary.com/privkey.pem',
-  ssl_dhparam         => '/etc/letsencrypt/ssl-dhparams.pem',
-  http2               => 'on',
+  # ssl                 => true,
+  # ssl_redirect        => true,
+  # ssl_cert            => "/etc/letsencrypt/live/${fqdn}/cert.pem",
+  # ssl_key             => "/etc/letsencrypt/live/${fqdn}/privkey.pem",
+  # ssl_dhparam         => '/etc/letsencrypt/ssl-dhparams.pem',
+  # http2               => 'on',
   proxy               => 'http://guacamole-server/guacamole/',
   proxy_http_version  => '1.1',
   proxy_set_header    => [
@@ -68,7 +71,7 @@ class { 'letsencrypt':
   email          => 'sysops@evolvedbinary.com',
   package_ensure => 'latest',
   certificates   => {
-    'plum.evolvedbinary.com' => {
+    $fqdn => {
       plugin      => 'nginx',
       manage_cron => true,
     },
@@ -76,8 +79,36 @@ class { 'letsencrypt':
   require        => [
     Class['nginx'],
     Class['letsencrypt::plugin::nginx'],
-    Package['cron']
+    Package['cron'],
   ],
+}
+
+# reconfigure nginx but now with SSL
+nginx::resource::server { "${fqdn}_ssl":
+  ensure              => present,
+  server_name         => $fqdn,
+  access_log          => "/var/log/nginx/${fqdn}_access.log",
+  listen_port         => 80,
+  ipv6_enable         => true,
+  ipv6_listen_options => '',
+  ipv6_listen_port    => 80,
+  ssl                 => true,
+  ssl_redirect        => true,
+  ssl_cert            => "/etc/letsencrypt/live/${fqdn}/cert.pem",
+  ssl_key             => "/etc/letsencrypt/live/${fqdn}/privkey.pem",
+  ssl_dhparam         => '/etc/letsencrypt/ssl-dhparams.pem',
+  http2               => 'on',
+  proxy               => 'http://guacamole-server/guacamole/',
+  proxy_http_version  => '1.1',
+  proxy_set_header    => [
+    'Host $host',
+    'Upgrade $http_upgrade',
+    'Connection $connection_upgrade',
+    'X-Real-IP $remote_addr',
+    'X-Forwarded-For $proxy_add_x_forwarded_for',
+    'nginx-request-uri $request_uri',
+  ],
+  require             => Class['letsencrypt'],
 }
 
 class { 'letsencrypt::plugin::nginx':

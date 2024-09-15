@@ -98,11 +98,11 @@ file { 'default_user_code_folder':
   ],
 }
 
-ssh_authorized_key { 'cityehrwork':
+ssh_authorized_key { 'xmlss-xml-intro':
   ensure  => present,
   user    => $default_user,
   type    => 'ssh-ed25519',
-  key     => 'AAAAC3NzaC1lZDI1NTE5AAAAIEwexg8HSsaumrYw5Kd2qGZSbjCbgqJR5wo8rEj+gPfC',
+  key     => 'AAAAC3NzaC1lZDI1NTE5AAAAIDtRDOEvUGEKUQTRJH7ENAJl/NzYAPE/atmBNgMVddmx',
   require => User['default_user'],
 }
 
