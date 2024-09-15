@@ -97,7 +97,7 @@ $oxygen_license_xml = @(OXYGEN_LICENSE_XML_EOF:xml/L)
         <String>license.26</String>
         <String>------START-LICENSE-KEY------
 
-Registration_Name=adam @ evolvedbinary . com
+Registration_Name=sysops @ evolvedbinary . com
 
 Company=Evolved-Binary
 
@@ -109,11 +109,11 @@ Version=26
 
 Number_of_Licenses=1
 
-Date=08-11-2024
+Date=09-15-2024
 
 Trial=31
 
-SGN=MC0CFGjG5UoYXFgFp7RETxpDsc7sQFZ8AhUAkChX37mD/UDra5OZu2HH0IJdfsg\=
+SGN=MCwCFHzStSY/uhwcbe9Dsry/qUvy2rLPAhQIZ0J/y6ypZQvecApCqdMu7DXu3A\=\=
 
 
 -------END-LICENSE-KEY-------</String>
