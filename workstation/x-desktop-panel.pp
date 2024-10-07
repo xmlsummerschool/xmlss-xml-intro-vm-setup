@@ -63,10 +63,10 @@ $panel_conf = @("PANEL_EOF"/L)
   [quicklaunch]
   alignment=Left
   apps\1\desktop=/home/${default_user}/Desktop/google-chrome.desktop
-  apps\1\desktop=/home/${default_user}/Desktop/firefox.desktop
-  apps\2\desktop=/home/${default_user}/Desktop/qterminal.desktop
-  apps\3\desktop=/home/${default_user}/Desktop/pcmanfm-qt.desktop
-  apps\size=3
+  apps\2\desktop=/home/${default_user}/Desktop/firefox.desktop
+  apps\3\desktop=/home/${default_user}/Desktop/qterminal.desktop
+  apps\4\desktop=/home/${default_user}/Desktop/pcmanfm-qt.desktop
+  apps\size=4
   type=quicklaunch
 
   [showdesktop]
