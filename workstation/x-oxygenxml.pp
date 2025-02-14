@@ -63,51 +63,20 @@ file { '/opt/oxygen':
   require => File["/opt/oxygen-${oxygen_version}"],
 }
 
-$oxygen_desktop_shortcut = @("OXYGEN_DESKTOP_ENTRY_EOF"/L)
-  [Desktop Entry]
-  Version=1.0
-  Type=Application
-  Name=Oxygen XML Editor
-  Exec=/opt/oxygen/oxygen.sh
-  Icon=/opt/oxygen/Oxygen128.png
-  Terminal=false
-  StartupNotify=false
-  GenericName=Oxygen XML Editor
-  | OXYGEN_DESKTOP_ENTRY_EOF
-
-file { 'oxygen-desktop-shortcut':
-  ensure  => file,
-  path    => "/home/${default_user}/Desktop/oxygen.desktop",
-  owner   => $default_user,
-  group   => $default_user,
-  mode    => '0644',
-  content => $oxygen_desktop_shortcut,
-  require => [
+xdesktop::shortcut { 'Oxygen XML Editor':
+  application_path => '/opt/oxygen/oxygen.sh',
+  application_icon => '/opt/oxygen/Oxygen128.png',
+  user             => $default_user,
+  position         => {
+    provider => 'lxqt',
+    x        => 139,
+    y        => 642,
+  },
+  require          => [
     Package['desktop'],
     File['default_user_desktop_folder'],
-    File['/opt/oxygen']
-  ],
-}
-
-exec { 'gvfs-trust-oxygen-desktop-shortcut':
-  command     => "/usr/bin/gio set /home/${default_user}/Desktop/oxygen.desktop metadata::trusted true",
-  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/oxygen.desktop | /usr/bin/grep trusted",
-  user        => $default_user,
-  environment => [
-    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
-  ],
-  require     => File['oxygen-desktop-shortcut'],
-}
-
-ini_setting { 'oxygen-desktop-shortcut-position':
-  ensure  => present,
-  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
-  section => 'oxygen.desktop',
-  setting => 'pos',
-  value   => '@Point(139 642)',
-  require => [
     File['desktop-items-0'],
-    File['oxygen-desktop-shortcut'],
+    File['/opt/oxygen'],
   ],
 }
 

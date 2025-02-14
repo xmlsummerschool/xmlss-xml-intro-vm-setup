@@ -176,7 +176,8 @@ cd workstation
 sudo /opt/puppetlabs/bin/puppet apply 00-locale.pp
 
 sudo FACTER_default_user_password=mypassword \
-     /opt/puppetlabs/bin/puppet apply 01-base.pp
+     /opt/puppetlabs/bin/puppet apply --modulepath=/etc/puppetlabs/code/environments/production/modules:$(pwd)/modules \
+	 01-base.pp
 ```
 
 **NOTE:** you should set your own passwords appropriately above!
@@ -192,10 +193,12 @@ sudo shutdown -r now
 After the system restarts and you have logged in, you need to resume from the `xmlss-xml-intro-vm-setup/workstation` repo checkout:
 
 ```shell
+```shell
 cd xmlss-xml-intro-vm-setup/workstation
 sudo FACTER_default_user_password=mypassword \
      FACTER_mariadb_db_root_password=password \
-     /opt/puppetlabs/bin/puppet apply .
+  /opt/puppetlabs/bin/puppet apply --modulepath=/etc/puppetlabs/code/environments/production/modules:$(pwd)/modules \
+  .
 ```
 
 **NOTE:** you should set your own passwords appropriately above!
