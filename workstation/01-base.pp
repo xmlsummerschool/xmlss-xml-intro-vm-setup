@@ -8,6 +8,13 @@ include ufw
 $ubuntu_version = '24.04'
 $default_user = 'ubuntu'
 
+# SSH access key for the default user
+$default_user_ssh_access_key = {
+  name => 'xmlss-xml-intro',
+  type => 'ssh-ed25519',
+  key  => 'AAAAC3NzaC1lZDI1NTE5AAAAIDtRDOEvUGEKUQTRJH7ENAJl/NzYAPE/atmBNgMVddmx',
+}
+
 # setup automatic security updates
 package { 'unattended-upgrades':
   ensure => installed,
@@ -98,11 +105,11 @@ file { 'default_user_code_folder':
   ],
 }
 
-ssh_authorized_key { 'xmlss-xml-intro':
+ssh_authorized_key { $default_user_ssh_access_key['name']:
   ensure  => present,
   user    => $default_user,
-  type    => 'ssh-ed25519',
-  key     => 'AAAAC3NzaC1lZDI1NTE5AAAAIDtRDOEvUGEKUQTRJH7ENAJl/NzYAPE/atmBNgMVddmx',
+  type    => $default_user_ssh_access_key['type'],
+  key     => $default_user_ssh_access_key['key'],
   require => User['default_user'],
 }
 

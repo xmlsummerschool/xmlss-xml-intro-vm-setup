@@ -2,7 +2,9 @@
 # Puppet Script for a Desktop Developer Environment using LXQT on Ubuntu 24.04
 ###
 
+$desktop_background_image_url = 'https://static.evolvedbinary.com/xmlss/xmlss-desktop-background.png'
 $desktop_background_image = "/home/${default_user}/Pictures/xmlss-desktop-background.png"
+$desktop_background_color = '#ffffff'
 
 file { 'disable-screensaver':
   ensure  => file,
@@ -73,7 +75,7 @@ file { "/home/${default_user}/Pictures":
 }
 
 exec { 'download-desktop-background':
-  command => "curl https://static.evolvedbinary.com/xmlss/xmlss-desktop-background.png -o ${desktop_background_image}",
+  command => "curl ${desktop_background_image_url} -o ${desktop_background_image}",
   path    => '/usr/bin',
   user    => $default_user,
   creates => $desktop_background_image,
@@ -138,7 +140,7 @@ ini_setting { 'desktop_background_color':
   path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/settings.conf",
   section => 'Desktop',
   setting => 'BgColor',
-  value   => '#ffffff',
+  value   => $desktop_background_color,
   require => [
     Package['desktop'],
     File['settings.conf'],
