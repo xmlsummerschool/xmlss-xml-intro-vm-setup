@@ -30,6 +30,18 @@ export HN=xmlss-01 IP4=188.40.179.161 IP6=2a01:4f8:140:91f0::161
 ./create-uvt-kvm.sh --hostname $HN --release noble --memory 14336 --disk 30 --cpu 4 --bridge virbr1 --ip $IP4 --ip6 $IP6 --gateway 6.4.100.114 --gateway6 2a01:4f8:140:91f0::2 --dns 185.12.64.1 --dns 185.12.64.2 --dns-search evolvedbinary.com --autostart
 ```
 
+**NOTE**: There is an issue at the moment with the 2nd private interface not being activated until the VM is shutdown and re-launched. So before you login to the VM fo rthe first time, please wait a few minutes so the VM finishes starting up, and then run:
+
+```shell
+virsh shutdown cityehr-work-01
+```
+
+You should then check the status of the VM until it is shutdown. You can do that by running: `virsh domstate cityehr-work-01`. When the state is `shut off`, you can then restart the VM by running:
+
+```shell
+virsh cityehr-work-01
+```
+
 **NOTE**: The VM specific settings are:
 * `--hostname` `xmlss-01`
 * `--ip` `188.40.179.161`
