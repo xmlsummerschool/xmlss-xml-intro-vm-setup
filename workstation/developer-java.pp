@@ -4,7 +4,7 @@
 
 include apt
 
-$maven_version = '3.9.9'
+$maven_version = '3.9.11'
 
 # Install OpenJDK 11
 package { 'openjdk-11-jdk':
