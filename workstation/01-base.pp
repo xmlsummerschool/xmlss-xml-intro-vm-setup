@@ -2,10 +2,12 @@
 # Puppet Script for a Base System on Ubuntu 24.04
 ###
 
+include apt
 include ufw
 
 # Set the version of Ubuntu
 $ubuntu_version = '24.04'
+$ubuntu_codename = 'noble'
 $default_user = 'ubuntu'
 
 # SSH access key for the default user
@@ -13,6 +15,24 @@ $default_user_ssh_access_key = {
   name => 'xmlss-xml-intro',
   type => 'ssh-ed25519',
   key  => 'AAAAC3NzaC1lZDI1NTE5AAAAIDtRDOEvUGEKUQTRJH7ENAJl/NzYAPE/atmBNgMVddmx',
+}
+
+# Set Hetzner Ubuntu Mirror
+$hetzner_ubuntu_mirror_releases = [$ubuntu_codename, "${ubuntu_codename}-updates", "${ubuntu_codename}-backports", "${ubuntu_codename}-security"]
+
+$hetzner_ubuntu_mirror_releases.each | $hetzner_ubuntu_mirror_release | {
+  apt::source { "hetzner-ubuntu-${hetzner_ubuntu_mirror_release}-mirror":
+    location => 'https://mirror.hetzner.com/ubuntu/packages',
+    types    => ['deb'],
+    release  => $hetzner_ubuntu_mirror_release,
+    repos    => ['main', 'universe', 'restricted', 'multiverse'],
+    keyring  => '/usr/share/keyrings/ubuntu-archive-keyring.gpg',
+  }
+}
+
+file { '/etc/apt/sources.list.d/ubuntu.sources':
+  ensure  => absent,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 # setup automatic security updates
@@ -38,11 +58,13 @@ file { '/etc/apt/apt.conf.d/20auto-upgrades':
 package { "linux-generic-hwe-${ubuntu_version}":
   ensure          => installed,
   install_options => ['--install-recommends'],
+  require         => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 # configure the 'ubuntu' user and their home folder
 package { 'zsh':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 group { 'sudo':
@@ -139,7 +161,8 @@ exec { 'install-ohmyzsh':
 }
 
 package { 'openssh-server':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 class { 'ssh':
@@ -188,7 +211,8 @@ ufw::allow { 'ssh':
 
 # install miscellaneous system packages
 package { 'chrony':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 service { 'chronyd':
@@ -198,41 +222,51 @@ service { 'chronyd':
 }
 
 package { 'file':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 package { 'zip':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 package { 'unzip':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 package { 'tar':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 package { 'gzip':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 package { 'bzip2':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 package { 'zstd':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 package { 'wget':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 package { 'screen':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
 
 package { 'git':
-  ensure => installed,
+  ensure  => installed,
+  require => Apt::Source["hetzner-ubuntu-${ubuntu_codename}-security-mirror"],
 }
