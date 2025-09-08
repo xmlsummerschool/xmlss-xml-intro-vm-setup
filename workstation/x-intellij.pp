@@ -32,7 +32,7 @@ file { '/opt/idea-IC':
 }
 
 xdesktop::shortcut { 'IntelliJ IDEA CE':
-  application_path => '/opt/idea-IC/bin/idea.sh',
+  application_path => '/opt/idea-IC/bin/idea',
   application_icon => '/opt/idea-IC/bin/idea.svg',
   user             => $default_user,
   position         => {
