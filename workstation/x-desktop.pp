@@ -237,7 +237,7 @@ file_line { 'simplify-qterminalname-2':
   ensure  => present,
   path    => '/usr/share/applications/qterminal.desktop',
   line    => 'Name[en_GB]=Terminal',
-  match   => '^Name[en_GB]\=Qterminal',
+  match   => '^Name[en_GB]=QTerminal',
   require => Package['desktop'],
 }
 
