@@ -132,8 +132,8 @@ The following software will be configured:
 	* Okular
 
 * Java Development Environment
-	* JDK 11
-	* JDK 17
+	* JDK 11 and 17 (default: 17)
+		* JavaFX 17
 	* Apache Maven 3
 	* IntelliJ IDEA CE
 	* Apache Tomcat 9
