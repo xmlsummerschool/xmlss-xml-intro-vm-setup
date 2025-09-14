@@ -72,12 +72,12 @@ exec { 'download-phpservice':
 }
 
 # Set homepage for seewhatithink.com
-
 file { "/home/${default_user}/snap":
-  ensure => directory,
-  owner  => $default_user,
-  group  => $default_user,
-  mode   => '0700',
+  ensure  => directory,
+  owner   => $default_user,
+  group   => $default_user,
+  mode    => '0700',
+  require => File['default_user_home'],
 }
 
 file { "/home/${default_user}/snap/firefox":
@@ -128,7 +128,7 @@ StartWithLastProfile=1
 Version=2",
   require => [
     File["/home/${default_user}/snap/firefox/common/.mozilla/firefox"],
-    Exec['download-seewhatithink'],
+    Exec['download-cityehr'],
     Package['firefox'],
   ],
 }
