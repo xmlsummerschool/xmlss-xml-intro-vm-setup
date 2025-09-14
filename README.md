@@ -26,12 +26,12 @@ cd ~/hetzner
 
 sudo uvt-simplestreams-libvirt sync --source=http://cloud-images.ubuntu.com/minimal/releases arch=amd64 release=noble
 
-export HN=xmlss1 IP4=188.40.179.161 IP6=2a01:4f8:140:91f0::161
+export HN=xmlss-01 IP4=188.40.179.161 IP6=2a01:4f8:140:91f0::161
 ./create-uvt-kvm.sh --hostname $HN --release noble --memory 14336 --disk 30 --cpu 4 --bridge virbr1 --ip $IP4 --ip6 $IP6 --gateway 6.4.100.114 --gateway6 2a01:4f8:140:91f0::2 --dns 185.12.64.1 --dns 185.12.64.2 --dns-search evolvedbinary.com --autostart
 ```
 
 **NOTE**: The VM specific settings are:
-* `--hostname` `xmlss1`
+* `--hostname` `xmlss-01`
 * `--ip` `188.40.179.161`
 * `--ip6` `2a01:4f8:140:91f0::161`
 
@@ -48,7 +48,7 @@ export HN=xmlss1 IP4=188.40.179.161 IP6=2a01:4f8:140:91f0::161
 
 If you wish to set this up in AWS EC2, then for each Virtual Machine you need should setup a new EC2 instance with the following properties:
 
-1. Name the instance 'xmlss1'. (change the `1` as needed for more machines).
+1. Name the instance 'xmlss-01'. (change the `01` as needed for more machines).
 
 2. Select the `Ubuntu Server 24.04 LTS (HVM), SSD Volume Type` AMI image, and the Architecture `amd64`.
 
@@ -217,12 +217,12 @@ After installation you should be able to access this instance using either one o
 		* **Mac** - Install and run (Microsoft Remote Desktop](https://apps.apple.com/us/app/microsoft-remote-desktop/id1295203466?mt=12) from the Apple Store.
 		* **Linux** - run `rdesktop` (Ubuntu install: `apt-get install -y rdesktop && rdesktop`)
 	* Connection Settings:
-		* **Host**: The IP address or FQDN of the remote machine (e.g. `xmlss1.evolvedbinary.com`)
+		* **Host**: The IP address or FQDN of the remote machine (e.g. `xmlss-01.evolvedbinary.com`)
 		* **Username**: `ubuntu`
 		* **Password**: *the password you set above for `default_user_password`*
 
 
 2. Indirectly via the Guacamole website by visiting the website (e.g. [https://melon.evolvedbinary.com](https://melon.evolvedbinary.com)) in your web browser.
 	* Login details:
-		* **Username**: `xmlss1` (replace 1 with the number of the instance)
+		* **Username**: `xmlss-01` (replace `01` with the number of the instance)
 		* **Password**: *the password you set above for `xmlss_default_user_password`*
