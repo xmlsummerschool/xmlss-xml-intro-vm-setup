@@ -27,14 +27,15 @@ package { 'dbeaver-ce':
 }
 
 xdesktop::shortcut { 'DBeaver CE':
-  shortcut_source => '/usr/share/applications/dbeaver-ce.desktop',
-  user            => $default_user,
-  position        => {
+  application_path => 'env _JAVA_OPTIONS="" /usr/share/dbeaver-ce/dbeaver',
+  application_icon => '/usr/share/dbeaver-ce/dbeaver.png',
+  user             => $default_user,
+  position         => {
     provider => 'lxqt',
     x        => 266,
     y        => 12,
   },
-  require         => [
+  require          => [
     Package['desktop'],
     File['default_user_desktop_folder'],
     File['desktop-items-0'],
