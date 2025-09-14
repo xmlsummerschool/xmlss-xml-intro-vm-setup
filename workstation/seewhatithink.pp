@@ -4,6 +4,7 @@
 
 $seewhatithink_war_path = '/opt/tomcat/webapps/seewhatithink.war'
 $sqlwebservices_war_path = '/opt/tomcat/webapps/sqlWebServices.war'
+$phpservice_war_path = '/opt/tomcat/webapps/phpService.war'
 
 $firefox_profile_id = 'ki59z67a'
 
@@ -51,6 +52,23 @@ exec { 'download-sqlwebservices':
     Package['curl'],
     Service['tomcat']
   ],
+}
+
+exec { 'download-phpservice':
+  command => "curl -L https://static.evolvedbinary.com/xmlss/phpService.war -o ${phpservice_war_path}",
+  path    => '/usr/bin',
+  user    => 'tomcat',
+  group   => 'tomcat',
+  creates => $phpservice_war_path,
+  require => [
+    Package['file'],
+    Package['curl'],
+    Service['tomcat']
+  ],
+} ~> exec { 'set-phpservice-mode':
+  command => 'chmod 770 /opt/tomcat/webapps/phpService',
+  onlyif  => 'test -f /opt/tomcat/webapps/phpService/index.php',
+  path    => '/usr/bin',
 }
 
 # Set homepage for seewhatithink.com
