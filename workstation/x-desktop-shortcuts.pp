@@ -95,24 +95,6 @@ xdesktop::shortcut { 'Open Health Informatics':
   ],
 }
 
-xdesktop::shortcut { 'Exercises':
-  application_path => '/usr/bin/google-chrome-stable https://drive.google.com/drive/u/1/folders/1kDva2n1aVIhzcCzhpyOlwaCu0Q11NgOC',
-  application_icon => "/usr/share/icons/Adwaita/symbolic/places/folder-remote-symbolic.svg",
-  startup_notify   => true,
-  user             => $default_user,
-  position         => {
-    provider => 'lxqt',
-    x        => 393,
-    y        => 516,
-  },
-  require          => [
-    Package['desktop'],
-    Package['google-chrome-stable'],
-    File['default_user_desktop_folder'],
-    File['desktop-items-0'],
-  ],
-}
-
 xdesktop::shortcut { 'Presentations':
   application_path => '/usr/bin/google-chrome-stable https://drive.google.com/drive/u/1/folders/1UGJDHXSCH2aAG4x50jc0ZEqI6UT_3Gi8',
   application_icon => "/usr/share/icons/Adwaita/symbolic/places/folder-remote-symbolic.svg",
