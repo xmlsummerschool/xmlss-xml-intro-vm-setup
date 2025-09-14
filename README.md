@@ -205,7 +205,6 @@ sudo shutdown -r now
 After the system restarts and you have logged in, you need to resume from the `xmlss-xml-intro-vm-setup/workstation` repo checkout:
 
 ```shell
-```shell
 cd xmlss-xml-intro-vm-setup/workstation
 sudo FACTER_default_user_password=mypassword \
      FACTER_mariadb_db_root_password=password \
