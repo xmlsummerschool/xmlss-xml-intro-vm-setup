@@ -2,6 +2,7 @@
 # Puppet Script to build and install Guacamole Client on Ubuntu
 ###
 
+$guacamole_client_version = "1.6.0"
 $guacamole_client_source_folder = "/home/${default_user}/code/guacamole-client"
 
 file { 'guacamole-client-source-folder':
@@ -269,7 +270,7 @@ file { '/etc/guacamole/user-mapping.xml':
 file { 'guacamole-war':
   ensure  => file,
   path    => '/opt/tomcat/webapps/guacamole.war',
-  source  => "${guacamole_client_source_folder}/guacamole/target/guacamole-1.6.0.war",
+  source  => "${guacamole_client_source_folder}/guacamole/target/guacamole-${guacamole_client_version}.war",
   require => [
     File['/etc/guacamole/guacamole.properties'],
     File['/etc/guacamole/user-mapping.xml'],
