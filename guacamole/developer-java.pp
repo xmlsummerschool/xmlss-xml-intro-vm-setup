@@ -2,7 +2,7 @@
 # Puppet Script for a Java Developer Environment on Ubuntu
 ###
 
-$maven_version = '3.9.11'
+$maven_version = '3.9.16'
 
 package { 'openjdk-17-jdk-headless':
   ensure => installed,
