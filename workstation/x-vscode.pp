@@ -1,5 +1,5 @@
 ###
-# Puppet Script for VSCode on Ubuntu 24.04
+# Puppet Script for VSCode on Ubuntu
 ###
 
 exec { 'download-vscode-deb':

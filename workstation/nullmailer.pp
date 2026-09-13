@@ -1,5 +1,5 @@
 ###
-# Puppet Script for nullmailer on Ubuntu 24.04
+# Puppet Script for nullmailer on Ubuntu
 ###
 $smtp_relay_host = 'jess.evolvedbinary.com'
 

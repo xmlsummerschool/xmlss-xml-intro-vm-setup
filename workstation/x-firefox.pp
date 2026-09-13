@@ -1,5 +1,5 @@
 ###
-# Puppet Script for Firefox on Ubuntu 24.04
+# Puppet Script for Firefox on Ubuntu
 ###
 
 package { 'firefox':

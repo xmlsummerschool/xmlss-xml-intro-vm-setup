@@ -1,5 +1,5 @@
 ###
-# Puppet Script for installing the Course Exercises on Ubuntu 24.04
+# Puppet Script for installing the Course Exercises on Ubuntu
 ###
 
 $exercises_url = 'https://static.evolvedbinary.com/xmlss/Hands-on-Introduction-to-XML.zip'

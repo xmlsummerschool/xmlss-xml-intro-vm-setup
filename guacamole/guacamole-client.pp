@@ -1,5 +1,5 @@
 ###
-# Puppet Script to build and install Guacamole Client on Ubuntu 24.04
+# Puppet Script to build and install Guacamole Client on Ubuntu
 ###
 
 $guacamole_client_source_folder = "/home/${default_user}/code/guacamole-client"

@@ -1,5 +1,5 @@
 ###
-# Puppet Script for setting locale on Ubuntu 24.04
+# Puppet Script for setting locale on Ubuntu
 ###
 
 $locale = 'en_GB'

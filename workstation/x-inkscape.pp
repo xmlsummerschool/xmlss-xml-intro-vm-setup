@@ -1,5 +1,5 @@
 ###
-# Puppet Script for Inkscape on Ubuntu 24.04
+# Puppet Script for Inkscape on Ubuntu
 ###
 
 package { 'inkscape':

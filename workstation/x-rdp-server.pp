@@ -1,5 +1,5 @@
 ###
-# Puppet Script for an RDP Server on Ubuntu 24.04
+# Puppet Script for an RDP Server on Ubuntu
 ###
 
 include ufw

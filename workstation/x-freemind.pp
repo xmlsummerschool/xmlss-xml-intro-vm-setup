@@ -1,5 +1,5 @@
 ###
-# Puppet Script for FreeMind on Ubuntu 22.04
+# Puppet Script for FreeMind on Ubuntu
 ###
 
 $freemind_version = '1.0.1'

@@ -1,5 +1,5 @@
 ###
-# Puppet Script for Protege on Ubuntu 24.04
+# Puppet Script for Protege on Ubuntu
 ###
 
 $protege_version = '5.6.5'

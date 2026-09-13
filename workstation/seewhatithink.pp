@@ -1,5 +1,5 @@
 ###
-# Puppet Script for seewhatithink app on Ubuntu 24.04
+# Puppet Script for seewhatithink app on Ubuntu
 ###
 
 $seewhatithink_war_path = '/opt/tomcat/webapps/seewhatithink.war'

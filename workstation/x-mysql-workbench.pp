@@ -1,5 +1,5 @@
 ###
-# Puppet Script for MySQL Workbench on Ubuntu 22.04
+# Puppet Script for MySQL Workbench on Ubuntu
 ###
 
 $mysql_workbench_community_version = '8.0.41-1ubuntu24.04_amd64'

@@ -1,5 +1,5 @@
 ###
-# Puppet Script for Mirth Administrator on Ubuntu 24.04
+# Puppet Script for Mirth Administrator on Ubuntu
 ###
 
 $mirth_administrator_path = '/opt/mirth-administrator'

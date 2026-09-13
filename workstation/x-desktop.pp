@@ -1,5 +1,5 @@
 ###
-# Puppet Script for a Desktop Developer Environment using LXQT on Ubuntu 24.04
+# Puppet Script for a Desktop Developer Environment using LXQT on Ubuntu
 ###
 
 $desktop_background_image_url = 'https://static.evolvedbinary.com/xmlss/xmlss-desktop-background.png'

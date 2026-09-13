@@ -1,5 +1,5 @@
 ###
-# Puppet Script for a Java Developer Environment on Ubuntu 24.04
+# Puppet Script for a Java Developer Environment on Ubuntu
 ###
 
 $maven_version = '3.9.11'

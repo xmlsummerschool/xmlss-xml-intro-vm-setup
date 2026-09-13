@@ -1,5 +1,5 @@
 ###
-# Puppet Script for Mirth Connect on Ubuntu 24.04
+# Puppet Script for Mirth Connect on Ubuntu
 ###
 
 $mirth_connect_version = '4.5.1.b332'

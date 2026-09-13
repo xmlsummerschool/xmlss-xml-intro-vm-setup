@@ -1,11 +1,11 @@
 ###
-# Puppet Script for a Base System on Ubuntu 24.04
+# Puppet Script for a Base System on Ubuntu 26.04
 ###
 
 include ufw
 
 # Set the version of Ubuntu
-$ubuntu_version = '24.04'
+$ubuntu_version = '26.04'
 $default_user = 'ubuntu'
 
 # setup automatic security updates
@@ -98,11 +98,11 @@ file { 'default_user_code_folder':
   ],
 }
 
-ssh_authorized_key { 'aretter@hollowcore.local':
+ssh_authorized_key { 'aretter@formaggio':
   ensure  => present,
   user    => $default_user,
   type    => 'ssh-rsa',
-  key     => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDHvJ21M2Jfw75K82bEdZIhL9t7N8kUuXOPxKWFs7o6Z+42UGH47lmQrk95OJdhLxlp2paGFng++mMLV1Xf7uLjTUE8lJHJv/TSzC81Q5NSfFXQTn4kpr5BRKgTnXPNYTHcsueeUr6auZDThVG3mU62AvieFeI5MJOE7FlAS4++u2pVG7+H4l48snlKiUDH5oXRLdJtZbED2v6byluSkj6uNThEYoHzHRxvF8Lo12NgQEMBVrHyvBWtHPpZIhCzzzsTEf9+249VqsO3NqTl7vswMhf8z2NYgGjf0w+5A3bJDIpvDRWQ+40uB1bdwqUDuiY8nGSSKwpVOby0cYZjfhjZ',
+  key     => 'AAAAC3NzaC1lZDI1NTE5AAAAICuvZre+JMN6WHuecKLRmIPlaeakuoseCvCDPHyadUWV',
   require => User['default_user'],
 }
 

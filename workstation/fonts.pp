@@ -1,5 +1,5 @@
 ###
-# Puppet Script for Fonts on Ubuntu 24.04
+# Puppet Script for Fonts on Ubuntu
 ###
 
 package { 'fontconfig':

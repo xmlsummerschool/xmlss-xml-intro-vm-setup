@@ -1,5 +1,5 @@
 ###
-# Puppet Script for BOUML on Ubuntu 24.04
+# Puppet Script for BOUML on Ubuntu
 ###
 
 $bouml_path = '/opt/bouml'

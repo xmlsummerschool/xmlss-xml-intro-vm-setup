@@ -1,5 +1,5 @@
 ###
-# Puppet Script for IntelliJ IDEA CE on Ubuntu 24.04
+# Puppet Script for IntelliJ IDEA CE on Ubuntu
 ###
 
 $intellij_idea_version = '2025.2.1'

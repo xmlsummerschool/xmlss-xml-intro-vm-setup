@@ -1,5 +1,5 @@
 ###
-# Puppet Script for a C++ Environment on Ubuntu 24.04
+# Puppet Script for a C++ Environment on Ubuntu
 ###
 
 package { 'gcc':

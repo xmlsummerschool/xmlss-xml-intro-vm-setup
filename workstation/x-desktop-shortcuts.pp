@@ -1,5 +1,5 @@
 ###
-# Puppet Script for extra Desktop Shortcuts on Ubuntu 24.04
+# Puppet Script for extra Desktop Shortcuts on Ubuntu
 ###
 
 file { 'dot-local':

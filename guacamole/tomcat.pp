@@ -1,5 +1,5 @@
 ###
-# Puppet Script for Tomcat 9 on Ubuntu 24.04
+# Puppet Script for Tomcat 9 on Ubuntu
 ###
 
 $tomcat_version = '9.0.109'

@@ -1,5 +1,5 @@
 ###
-# Puppet Script for GanttProject on Ubuntu 22.04
+# Puppet Script for GanttProject on Ubuntu
 ###
 
 exec { 'download-ganttproject-deb':

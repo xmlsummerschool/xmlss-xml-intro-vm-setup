@@ -1,5 +1,5 @@
 ###
-# Puppet Script for cityEHR on Ubuntu 24.04
+# Puppet Script for cityEHR on Ubuntu
 ###
 
 $cityehr_version = '1.8.0-SNAPSHOT'

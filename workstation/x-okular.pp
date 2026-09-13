@@ -1,5 +1,5 @@
 ###
-# Puppet Script for Okular (pdf viewer) on Ubuntu 24.04
+# Puppet Script for Okular (pdf viewer) on Ubuntu
 ###
 
 package { 'okular':

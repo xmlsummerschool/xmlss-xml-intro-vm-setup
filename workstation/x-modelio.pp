@@ -1,5 +1,5 @@
 ###
-# Puppet Script for Modelio on Ubuntu 24.04
+# Puppet Script for Modelio on Ubuntu
 ###
 
 $modelio_version = '5.4.1'

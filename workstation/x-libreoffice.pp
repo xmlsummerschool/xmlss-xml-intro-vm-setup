@@ -1,5 +1,5 @@
 ###
-# Puppet Script for LibreOffice on Ubuntu 24.04
+# Puppet Script for LibreOffice on Ubuntu
 ###
 
 package { 'libreoffice':

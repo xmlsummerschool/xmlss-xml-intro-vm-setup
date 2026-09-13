@@ -1,5 +1,5 @@
 ###
-# Puppet Script for MariaDB on Ubuntu 22.04
+# Puppet Script for MariaDB on Ubuntu
 #
 # Expects Parameters:
 #     * mariadb_db_root_password
