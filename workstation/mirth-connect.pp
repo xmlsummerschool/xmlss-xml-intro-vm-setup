@@ -2,7 +2,7 @@
 # Puppet Script for Mirth Connect on Ubuntu
 ###
 
-$mirth_connect_version = '4.5.1.b332'
+$mirth_connect_version = '4.5.2.b363'
 $mirth_connect_user = 'mirth-connect'
 $mirth_connect_path = "/opt/mirth-connect-${mirth_connect_version}"
 $mirth_connect_alias = '/opt/mirth-connect'
