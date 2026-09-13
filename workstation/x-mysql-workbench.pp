@@ -2,21 +2,28 @@
 # Puppet Script for MySQL Workbench on Ubuntu
 ###
 
-$mysql_workbench_community_version = '8.0.41-1ubuntu24.04_amd64'
+$mysql_apt_config_version = '0.8.29-1_all'
 
-exec { 'download-mysql-workbench-community-deb':
-  command => "/usr/bin/curl -L https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community_${mysql_workbench_community_version}.deb -o /tmp/mysql-workbench-community_${mysql_workbench_community_version}.deb",
-  unless  => '/usr/bin/dpkg -s mysql-workbench-community',
+https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb
+
+exec { 'download-mysql-apt-config-deb':
+  command => "/usr/bin/curl -L https://dev.mysql.com/get/mysql-apt-config_${mysql_apt_config_version}.deb -o /tmp/mysql-apt-config_${mysql_apt_config_version}.deb",
+  unless  => '/usr/bin/dpkg -s mysql-apt-config',
   require => Package['curl'],
+}
+
+package { 'mysql-apt-config':
+  ensure  => installed,
+  source  => "/tmp/mysql-apt-config_${mysql_apt_config_version}.deb",
+  require => [
+    Package['desktop'],
+    Exec['download-mysql-apt-config-deb'],
+  ],
 }
 
 package { 'mysql-workbench-community':
   ensure  => installed,
-  source  => "/tmp/mysql-workbench-community_${mysql_workbench_community_version}.deb",
-  require => [
-    Package['desktop'],
-    Exec['download-mysql-workbench-community-deb'],
-  ],
+  require => Package['mysql-apt-config'],
 }
 
 xdesktop::shortcut { 'MySQL Workbench':
