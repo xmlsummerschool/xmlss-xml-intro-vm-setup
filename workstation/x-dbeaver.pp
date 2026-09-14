@@ -10,7 +10,7 @@ apt::source { 'dbeaver':
   repos    => '/',
   comment  => 'DBeaver',
   key      => {
-    id     => '98F5A7CC1ABE72AC3852A007D33A1BD725ED047D',
+    id     => 'BDFB19F681514B43875D16FA132C13A8A330F403',
     name   => 'dbeaver.gpg.key',
     source => 'https://dbeaver.io/debs/dbeaver.gpg.key',
   },
